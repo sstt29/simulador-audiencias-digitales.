@@ -1,1 +1,201 @@
-The requested file reference is not currently visible. Use files.search or files.list to rediscover the file, then retry with a returned ref_id or file_id.
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>Simulador de Audiencias Digitales</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#6b7280;--line:#dde3ee;--p:#3157f5;--p2:#6d5dfc;--ok:#0f8a5f;--warn:#a56a12;--bad:#c0392b;--soft:#eef2ff}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topin{max-width:1120px;margin:auto;padding:10px 14px;display:flex;gap:10px;align-items:center}.brand{font-weight:850;flex:1}.brand small{display:block;font-size:.72rem;color:var(--muted)}
+.progbox{min-width:120px}.proglabel{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)}.prog{height:7px;border-radius:99px;background:#e8ecf4;overflow:hidden}.prog span{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--p2))}
+.wrap{max-width:1120px;margin:auto;padding:16px 14px 96px}.hero{padding:28px 0 18px}.hero h1{margin:0 0 10px;font-size:clamp(1.9rem,6vw,3.5rem);line-height:1.02;letter-spacing:-1.2px}.hero p{max-width:760px;line-height:1.6;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 10px 28px rgba(20,30,55,.07)}
+.case{display:flex;flex-direction:column;min-height:250px}.pill{align-self:flex-start;background:var(--soft);color:var(--p);border-radius:999px;padding:6px 9px;font-size:.74rem;font-weight:800}.case h2{margin:14px 0 7px}.case p{color:var(--muted);line-height:1.5;flex:1}
+.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:800;background:var(--p);color:#fff}.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.ghost{background:#fff;color:var(--p);border:1px solid #cbd4ff}.btn:disabled{opacity:.42;cursor:not-allowed}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:16px}.side{position:sticky;top:72px;align-self:start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;max-height:calc(100vh - 90px);overflow:auto}.side strong{display:block;margin:5px 6px 10px}.sitem{font-size:.82rem;color:var(--muted);padding:9px 7px;border-radius:9px}.sitem.active{background:var(--soft);color:var(--p);font-weight:800}.sitem.done{color:var(--ok)}
+.step{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 10px 28px rgba(20,30,55,.07)}.kick{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;font-weight:850;color:var(--p)}.step h2{margin:6px 0 10px;font-size:clamp(1.4rem,5vw,2rem)}.step p{line-height:1.58}
+.info{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}.stat{border:1px solid var(--line);background:#f9fbff;border-radius:13px;padding:11px}.stat b{display:block}.stat span{font-size:.72rem;color:var(--muted)}
+.call{border-left:4px solid var(--p);background:#f4f6ff;padding:11px 13px;border-radius:10px;margin:12px 0;line-height:1.45}.call.ok{border-color:var(--ok);background:#effaf5}.call.warn{border-color:var(--warn);background:#fff8ec}.call.bad{border-color:var(--bad);background:#fff3f1}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0}.opt{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px;text-align:left}.opt.sel{border:2px solid var(--p);background:var(--soft)}.opt b{display:block;margin-bottom:4px}.opt small{color:var(--muted)}
+.just{margin-top:16px}.jhead{display:flex;justify-content:space-between;gap:10px;align-items:center}.count{font-size:.76rem;color:var(--muted)}textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:13px;padding:12px;margin-top:7px;resize:vertical}textarea:focus,input:focus,select:focus{outline:3px solid #dbe2ff;border-color:var(--p)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.actions{position:sticky;bottom:0;display:flex;justify-content:space-between;gap:8px;padding-top:24px;background:linear-gradient(180deg,rgba(245,247,251,0),rgba(245,247,251,.98) 30%);padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.money{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.money label{border:1px solid var(--line);border-radius:13px;padding:10px;background:#fafbff}.money input{width:100%;margin-top:6px;padding:8px;border:1px solid var(--line);border-radius:9px}
+.drawer{display:none;position:fixed;inset:0;background:rgba(6,12,28,.55);z-index:50}.drawer.open{display:block}.panel{position:absolute;right:0;top:0;bottom:0;width:min(900px,100%);background:#fff;overflow:auto;padding:14px}.dhead{position:sticky;top:-14px;z-index:3;background:#fff;border-bottom:1px solid var(--line);padding:10px 0;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.filters input,.filters select{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff}
+.fsum{font-size:.82rem;background:#f2f5ff;color:#3b4670;border-radius:10px;padding:9px 11px;margin:8px 0}.tbl{overflow:auto;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;min-width:850px;font-size:.79rem}th,td{padding:9px;border-bottom:1px solid #edf0f5;text-align:left;white-space:nowrap}th{background:#f8faff;position:sticky;top:0}
+.mcards{display:none}.rec{border:1px solid var(--line);border-radius:12px;padding:11px;margin:8px 0}.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:.79rem}.rgrid b{display:block;color:var(--muted);font-size:.68rem}
+.dash{display:grid;grid-template-columns:1fr 1fr;gap:14px}.dcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 10px 28px rgba(20,30,55,.07)}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.metric{border:1px solid var(--line);border-radius:12px;padding:10px}.metric b{display:block;font-size:1.08rem}.metric span{font-size:.71rem;color:var(--muted)}.ring{width:145px;height:145px;border-radius:50%;display:grid;place-items:center;margin:8px auto;background:conic-gradient(var(--p) calc(var(--pct)*1%),#edf0f5 0);position:relative}.ring:before{content:"";width:112px;height:112px;background:#fff;border-radius:50%;position:absolute}.rin{position:relative;text-align:center}.rin b{font-size:2.2rem}.rin span{display:block;color:var(--muted);font-size:.75rem}
+.barrow{margin:11px 0}.bartop{display:flex;justify-content:space-between;font-size:.8rem}.bar{height:8px;background:#edf0f5;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--p2))}
+@media(max-width:820px){.cards,.layout,.dash{grid-template-columns:1fr}.side{display:none}.info,.metrics{grid-template-columns:1fr 1fr}.opts,.money{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.wrap{padding:12px 11px 92px}.topin{padding:9px 10px}.brand{font-size:.9rem}.progbox{min-width:105px}.case{min-height:auto}.step{padding:15px;border-radius:16px}.filters{grid-template-columns:1fr}.tbl{display:none}.mcards{display:block}.tools .btn,.actions .btn{flex:1}.panel{padding:11px}.info{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="drawer" class="drawer">
+  <div class="panel">
+    <div class="dhead"><div><b>Base de clientes</b><div style="font-size:.76rem;color:var(--muted)">Filtra y analiza registros para construir audiencias.</div></div><button class="btn alt" id="closeDb">Cerrar</button></div>
+    <div class="filters">
+      <input id="fSearch" placeholder="Buscar cliente o ciudad">
+      <select id="fDays"><option value="">Recencia: todas</option><option value="7">≤ 7 días</option><option value="30">≤ 30 días</option><option value="90">≤ 90 días</option><option value="180">≤ 180 días</option></select>
+      <select id="fChannel"><option value="">Canal: todos</option><option>Web</option><option>App</option><option>Tienda</option><option>Delivery</option></select>
+      <select id="fBehavior"><option value="">Comportamiento: todos</option><option>Compró</option><option>Carrito</option><option>Visitó web</option><option>Interactuó</option><option>Lead</option><option>Inactivo</option></select>
+    </div>
+    <div id="fSummary" class="fsum"></div>
+    <div class="tbl"><table><thead><tr><th>ID</th><th>Ciudad</th><th>Edad</th><th>Canal</th><th>Comportamiento</th><th>Días</th><th>Compras</th><th>Gasto</th><th>Categoría</th><th>Engagement</th></tr></thead><tbody id="dbBody"></tbody></table></div>
+    <div id="mCards" class="mcards"></div>
+  </div>
+</div>
+<script>
+(function(){
+"use strict";
+var CASES={
+ urbanfit:{name:"UrbanFit",mode:"guided",label:"Práctica guiada",accent:"#5b5bd6",desc:"Cadena de gimnasios y servicios fitness. Aprende el recorrido completo con sugerencias y respuestas modelo.",budget:2400,customers:18400,traffic:"78,000 visitas/90 días",channels:"Web, app, sedes y WhatsApp",objective:"Aumentar membresías Black Friday y reactivar usuarios con alta intención.",event:"Una sede principal alcanza 95% de ocupación y ya no puede aceptar nuevas membresías premium."},
+ martwalk:{name:"MartWalk",mode:"exam",label:"Caso evaluado 1",accent:"#167a4a",desc:"Retail tipo supermercado con tiendas físicas, e-commerce y delivery. Black Friday de alto volumen.",budget:10000,customers:126000,traffic:"420,000 visitas/90 días",channels:"Web, app, tiendas, delivery y pickup",objective:"Maximizar ventas rentables de Black Friday sin saturar audiencias ni desperdiciar presupuesto.",event:"Electrónica agota 70% del inventario antes de las 4:00 p.m.; hogar y cuidado personal mantienen stock."},
+ reina:{name:"Farmacia La Reina",mode:"exam",label:"Caso evaluado 2",accent:"#9b2c7a",desc:"Farmacia nacional con medicamentos, cuidado personal, librería/papelería, web y delivery.",budget:6500,customers:74000,traffic:"215,000 visitas/90 días",channels:"Web, tiendas, delivery, call center y app",objective:"Incrementar ventas digitales y pedidos delivery con rentabilidad y segmentación responsable.",event:"Una promoción de cuidado personal se vuelve viral y eleva la frecuencia; medicamentos mantienen demanda estable."}
+};
+var STEPS=[
+["Analiza la situación actual","¿Cuál debe ser la prioridad estratégica de Black Friday?",["Alcance masivo sin restricciones","Ventas rentables con segmentación por intención","Solo reconocimiento de marca","Aumentar seguidores"],[1],"La campaña tiene objetivo comercial. El alcance solo es útil si conduce a ventas rentables."],
+["Revisa las fuentes de datos","Selecciona las fuentes de mayor valor para construir audiencias.",["Compradores recientes","Visitantes del sitio","Carritos abandonados","Personas sin interacción previa"],[0,1,2],"Las señales de comportamiento propio permiten construir audiencias personalizadas con intención."],
+["Clasifica audiencias","¿Cuál representa mejor una audiencia personalizada?",["Intereses generales","Visitantes del sitio en 30 días","Personas de 18–55 años","Lookalike 1%"],[1],"Una audiencia personalizada surge de personas que ya tuvieron relación con la marca."],
+["Prioriza datos útiles","¿Qué segmento debería recibir mayor prioridad para remarketing inmediato?",["Usuarios sin contacto previo","Carritos abandonados ≤ 7 días","Seguidores inactivos 2 años","Audiencia amplia nacional"],[1],"Recencia e intención son claves para remarketing de conversión."],
+["Crea audiencia personalizada","Construye la audiencia de alta intención más adecuada.",["Visitantes 180 días","Carrito ≤ 7 días + no compradores","Todos los seguidores","Clientes de cualquier fecha"],[1],"Alta intención: carrito reciente y exclusión de quienes ya compraron."],
+["Elige audiencia origen para lookalike","¿Cuál sería una fuente de mejor calidad?",["Todos los visitantes","Compradores recurrentes de alto valor","Seguidores recientes","Usuarios de alcance"],[1],"La fuente debe representar el comportamiento que deseas replicar."],
+["Define tamaño lookalike","¿Qué tamaño utilizarías primero para maximizar similitud?",["1%","5%","10%","Sin límite"],[0],"Un porcentaje menor suele priorizar similitud; luego puede ampliarse para ganar escala."],
+["Construye audiencia fría","¿Cuál enfoque es más razonable para prospección?",["Intereses y comportamientos relacionados con categorías prioritarias","Compradores de los últimos 30 días","Carritos abandonados","Base de clientes"],[0],"La audiencia fría aún no tiene relación directa con la marca."],
+["Aplica exclusiones","¿Qué exclusión evita desperdicio en adquisición?",["Excluir compradores recientes de campañas para nuevos clientes","Excluir usuarios sin compra","Excluir visitantes web","Excluir toda la ciudad principal"],[0],"No pagues adquisición por personas que ya cumplieron recientemente el objetivo."],
+["Ubica audiencias en el embudo","¿Qué orden representa mejor el avance de intención?",["Lookalike → carrito → comprador","Comprador → fría → visitante","Carrito → fría → comprador","Fría → comprador → visitante"],[0],"La prospección puede comenzar con similares/frías y avanzar hacia señales de alta intención."],
+["Asigna objetivo publicitario","Para carritos abandonados, ¿qué objetivo priorizarías?",["Reconocimiento","Tráfico","Ventas/Conversiones","Interacción"],[2],"El comportamiento ya muestra intención; la optimización debe orientarse a compra."],
+["Relaciona producto y audiencia","¿Qué criterio debe dominar la asignación de productos?",["Producto aleatorio","Historial y afinidad de categoría","El producto más caro siempre","Mismo anuncio para todos"],[1],"La relevancia aumenta cuando la categoría coincide con señales previas del usuario."],
+["Distribuye presupuesto","Asigna una estructura inicial de inversión.",["Presupuesto"],["budget"],"Debe existir prospección, pero también inversión suficiente en audiencias de intención. La suma debe ser 100%."],
+["Selecciona mensaje","¿Qué mensaje usarías para alta intención?",["Conoce nuestra marca","Aprovecha hoy: vuelve a tu carrito antes de que termine Black Friday","Síguenos para más contenido","Historia institucional"],[1],"Para alta intención conviene urgencia contextual y continuidad con la acción previa."],
+["Lanza la primera ronda","¿Qué condición debe cumplirse antes de interpretar resultados?",["Revisar métricas en conjunto y no una sola","Tomar decisiones solo con CTR","Pausar todo lo que tenga CPC alto sin contexto","Esperar solo likes"],[0],"Las métricas deben leerse según objetivo, costo y resultado final."],
+["Analiza métricas","Una audiencia tiene CTR alto pero CPA muy alto. ¿Qué conclusión es más sólida?",["Es excelente porque genera clics","Puede atraer interés sin convertir eficientemente","Debe recibir todo el presupuesto","El CTR elimina la necesidad de revisar ROAS"],[1],"CTR no equivale a rentabilidad. Si CPA y ROAS son malos, la campaña necesita ajustes."],
+["Detecta desperdicio","¿Qué señal sugiere gasto ineficiente?",["Frecuencia alta + CPA creciente + ROAS bajo","ROAS alto + CPA bajo","Conversión creciente","Compras rentables"],[0],"Saturación y deterioro de costos suelen indicar desperdicio."],
+["Detecta solapamiento","¿Qué acción reduce competencia interna entre audiencias?",["Crear más conjuntos idénticos","Usar exclusiones entre segmentos","Duplicar presupuesto","Eliminar toda segmentación"],[1],"Las exclusiones ayudan a que dos conjuntos no pujen por las mismas personas."],
+["Optimiza la campaña","¿Qué decisión es más coherente si un conjunto tiene ROAS alto y frecuencia saludable?",["Pausarlo","Escalar gradualmente presupuesto","Duplicarlo diez veces de inmediato","Ignorarlo"],[1],"Escalar de forma gradual reduce el riesgo de desestabilizar el rendimiento."],
+["Responde al evento inesperado","El mercado cambia durante Black Friday. ¿Qué haces primero?",["Mantener todo igual","Reasignar inversión según stock, capacidad y desempeño","Aumentar frecuencia a cualquier costo","Detener todas las campañas"],[1],"La estrategia debe responder a inventario/capacidad real y no solo a métricas históricas."],
+["Realiza segunda ronda","Después de optimizar, ¿qué debes comparar?",["Solo likes","Ronda 1 vs. ronda 2 en CPA, ROAS, conversión y desperdicio","Solo alcance","Solo número de anuncios"],[1],"La mejora se demuestra comparando eficiencia y resultado comercial."],
+["Compara resultados","¿Qué escenario es preferible?",["Más ventas con ROAS menor y CPA descontrolado","Menos alcance pero mejor ROAS y CPA sostenible","Más impresiones aunque no conviertan","Mayor frecuencia siempre"],[1],"El objetivo es rentabilidad y sostenibilidad, no volumen vacío."],
+["Decide las últimas horas","¿Dónde concentrarías el presupuesto final?",["Audiencias con mejor combinación de intención, stock y rentabilidad","En todas por igual","Solo en la más grande","Solo en reconocimiento"],[0],"En el cierre conviene priorizar intención, capacidad real y retorno."],
+["Cierra y justifica estrategia final","Selecciona la afirmación que mejor resume una estrategia madura.",["La mejor audiencia es la más grande","La calidad de datos, exclusiones, intención y rentabilidad deben trabajar juntas","El CTR es suficiente para decidir","Lookalike reemplaza toda audiencia personalizada"],[1],"La gestión de audiencias es un sistema: datos, intención, exclusiones, presupuesto y resultados."]
+];
+var state={caseKey:null,step:0,answers:[],db:[]};
+var app=document.getElementById("app");
+function esc(s){return String(s).replace(/[&<>"']/g,function(m){return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[m]})}
+function home(){
+ app.innerHTML='<div class="wrap"><section class="hero"><div class="kick">Publicidad Digital · Audiencias</div><h1>Simulador de Audiencias Digitales</h1><p>Experiencia de aproximadamente 60 minutos para construir, justificar y optimizar audiencias frías, personalizadas y similares/lookalike en un contexto de Black Friday.</p></section><div class="cards">'+
+ Object.keys(CASES).map(function(k){var c=CASES[k];return '<article class="card case"><span class="pill">'+c.label+'</span><h2>'+c.name+'</h2><p>'+c.desc+'</p><button class="btn start" data-case="'+k+'" style="background:'+c.accent+'">'+(c.mode==="guided"?"Iniciar práctica guiada":"Iniciar caso evaluado")+'</button></article>'}).join("")+
+ '</div><div class="call"><b>Mobile-first.</b> El simulador puede completarse íntegramente desde celular, incluida la base de datos filtrable y el Dashboard final.</div></div>';
+ document.querySelectorAll(".start").forEach(function(b){b.addEventListener("click",function(){startCase(this.dataset.case)})});
+}
+function makeDb(k){
+ var cities=["San Miguel","San Salvador","Santa Ana","Usulután","La Unión","Sonsonate"];
+ var cats=k==="urbanfit"?["Membresía","Clases","Nutrición","Entrenamiento"]:k==="martwalk"?["Electrónica","Hogar","Cuidado personal","Alimentos","Juguetes","Ropa"]:["Medicamentos","Cuidado personal","Papelería","Librería","Bebé"];
+ var channels=["Web","App","Tienda","Delivery"],beh=["Compró","Carrito","Visitó web","Interactuó","Lead","Inactivo"],out=[];
+ for(var i=1;i<=120;i++){out.push({id:k.slice(0,2).toUpperCase()+"-"+String(i).padStart(3,"0"),city:cities[i%cities.length],age:18+(i*5)%47,channel:channels[i%4],behavior:beh[i%6],days:(i*7)%181,purchases:(i*3)%9,spend:20+((i*47)%650),category:cats[i%cats.length],engagement:["Bajo","Medio","Alto"][i%3]})}
+ return out;
+}
+function startCase(k){state={caseKey:k,step:0,answers:new Array(24).fill(null),db:makeDb(k)};renderStep()}
+function shell(inner){
+ var c=CASES[state.caseKey],pct=Math.round(state.step/24*100);
+ return '<div class="top"><div class="topin"><div class="brand">'+c.name+'<small>'+c.label+'</small></div><div class="progbox"><div class="proglabel"><span>Paso '+(state.step+1)+'/24</span><span>'+pct+'%</span></div><div class="prog"><span style="width:'+pct+'%"></span></div></div><button class="btn alt" id="exitBtn">Salir</button></div></div><div class="wrap"><div class="layout"><aside class="side"><strong>Recorrido</strong>'+STEPS.map(function(s,i){return '<div class="sitem '+(i===state.step?"active ":"")+(i<state.step?"done":"")+'">'+(i<state.step?"✓":(i+1))+". "+s[0]+'</div>'}).join("")+'</aside><main>'+inner+'</main></div></div>';
+}
+function context(c){return '<div class="info"><div class="stat"><b>$'+c.budget.toLocaleString()+'</b><span>Presupuesto</span></div><div class="stat"><b>'+c.customers.toLocaleString()+'</b><span>Clientes registrados</span></div><div class="stat"><b>'+c.traffic+'</b><span>Tráfico digital</span></div><div class="stat"><b>'+c.channels+'</b><span>Canales</span></div></div><div class="call"><b>Objetivo:</b> '+c.objective+'</div>'}
+function renderStep(){
+ var c=CASES[state.caseKey],s=STEPS[state.step],a=state.answers[state.step]||{choices:[],justification:""};
+ var isBudget=s[3][0]==="budget";
+ var inp="";
+ if(isBudget){
+  var b=a.budget||{cold:40,warm:35,hot:25};
+  inp='<div class="money"><label>Audiencias frías (%)<input id="bCold" type="number" min="0" max="100" value="'+b.cold+'"></label><label>Personalizadas (%)<input id="bWarm" type="number" min="0" max="100" value="'+b.warm+'"></label><label>Alta intención (%)<input id="bHot" type="number" min="0" max="100" value="'+b.hot+'"></label></div><div id="bTotal" class="fsum"></div>';
+ }else{
+  inp='<div class="opts">'+s[2].map(function(o,i){var sel=(a.choices||[]).indexOf(i)>=0;return '<button class="opt '+(sel?"sel":"")+'" data-opt="'+i+'"><b>'+String.fromCharCode(65+i)+". "+o+'</b><small>'+(s[3].length>1?"Puedes combinar opciones":"Selecciona una opción")+'</small></button>'}).join("")+'</div>';
+ }
+ var tools=(state.step>=1&&state.step<=5)?'<div class="tools"><button class="btn alt" id="dbBtn">Abrir base de clientes</button><button class="btn ghost" id="infoBtn">Ver expediente</button></div>':"";
+ var event=state.step===19?'<div class="call warn"><b>Evento inesperado:</b> '+c.event+'</div>':"";
+ var guide=c.mode==="guided"?'<div class="tools"><button class="btn ghost" id="hintBtn">Ver sugerencia guiada</button><button class="btn ghost" id="fillBtn">Rellenar ejemplo de justificación</button></div><div id="hintBox" class="call ok hidden"><b>Respuesta recomendada:</b> '+guidedAnswer(s)+'<br><br><b>Por qué:</b> '+s[4]+'</div>':"";
+ var inner='<section class="step"><div class="kick">Paso '+(state.step+1)+' de 24</div><h2>'+s[0]+'</h2>'+(state.step===0?context(c):"")+tools+event+'<p><b>'+s[1]+'</b></p>'+inp+'<div class="just"><div class="jhead"><b>Justificación de la decisión</b><span id="wc" class="count">0/50 palabras</span></div><textarea id="just" placeholder="Explica tu decisión utilizando los datos y criterios del caso...">'+esc(a.justification||"")+'</textarea><div class="call">Debes escribir un mínimo de <b>50 palabras</b>. Cumplir la extensión no garantiza una buena calificación.</div></div>'+guide+'</section><div class="actions"><button class="btn alt" id="prevBtn" '+(state.step===0?"disabled":"")+'>Anterior</button><button class="btn" id="nextBtn">Continuar</button></div>';
+ app.innerHTML=shell(inner);
+ bindStep();
+}
+function guidedAnswer(s){
+ if(s[3][0]==="budget")return "Una distribución equilibrada de 40% audiencias frías, 35% personalizadas y 25% alta intención.";
+ return s[3].map(function(i){return String.fromCharCode(65+i)+". "+s[2][i]}).join("; ");
+}
+function bindStep(){
+ document.getElementById("exitBtn").onclick=home;
+ var p=document.getElementById("prevBtn");if(p)p.onclick=function(){if(state.step>0){saveText();state.step--;renderStep();window.scrollTo(0,0)}};
+ var n=document.getElementById("nextBtn");if(n)n.onclick=nextStep;
+ var ta=document.getElementById("just");ta.addEventListener("input",function(){saveText();validateGate()});
+ document.querySelectorAll(".opt").forEach(function(b){b.onclick=function(){choose(+this.dataset.opt)}});
+ ["bCold","bWarm","bHot"].forEach(function(id){var e=document.getElementById(id);if(e)e.addEventListener("input",budgetChange)});
+ var d=document.getElementById("dbBtn");if(d)d.onclick=openDb;
+ var inf=document.getElementById("infoBtn");if(inf)inf.onclick=showInfo;
+ var hb=document.getElementById("hintBtn");if(hb)hb.onclick=function(){document.getElementById("hintBox").classList.toggle("hidden")};
+ var fb=document.getElementById("fillBtn");if(fb)fb.onclick=fillExample;
+ budgetChange(false);validateGate();
+}
+function saveText(){var a=state.answers[state.step]||{choices:[]};var ta=document.getElementById("just");if(ta)a.justification=ta.value;state.answers[state.step]=a}
+function choose(i){
+ saveText();var s=STEPS[state.step],a=state.answers[state.step]||{choices:[]};a.choices=a.choices||[];
+ if(s[3].length>1){var ix=a.choices.indexOf(i);if(ix>=0)a.choices.splice(ix,1);else a.choices.push(i)}else a.choices=[i];
+ state.answers[state.step]=a;renderStep();
+}
+function words(){var t=(document.getElementById("just").value||"").trim();return t?t.split(/\s+/).length:0}
+function validateGate(){
+ var w=words(),s=STEPS[state.step],a=state.answers[state.step]||{},ok=false;
+ document.getElementById("wc").textContent=w+"/50 palabras";
+ if(s[3][0]==="budget"){var b=a.budget||{};ok=(+b.cold||0)+(+b.warm||0)+(+b.hot||0)===100}else ok=!!(a.choices&&a.choices.length);
+ document.getElementById("nextBtn").disabled=!(w>=50&&ok);
+}
+function budgetChange(doSave){
+ var c=document.getElementById("bCold"),w=document.getElementById("bWarm"),h=document.getElementById("bHot");if(!c)return;
+ var b={cold:+c.value||0,warm:+w.value||0,hot:+h.value||0},a=state.answers[state.step]||{};a.budget=b;if(doSave!==false)a.justification=document.getElementById("just").value||"";state.answers[state.step]=a;
+ document.getElementById("bTotal").textContent="Total asignado: "+(b.cold+b.warm+b.hot)+"% "+((b.cold+b.warm+b.hot)===100?"✓":"— debe sumar 100%");
+ validateGate();
+}
+function fillExample(){
+ var s=STEPS[state.step],c=CASES[state.caseKey],txt="Mi decisión se basa en que "+s[4].toLowerCase()+" En este caso, "+c.name+" necesita relacionar la selección de audiencia con intención, calidad de datos, exclusiones y rentabilidad. No tomaría la decisión únicamente por alcance o tamaño del público. También verificaría el comportamiento reciente, la capacidad real de conversión y el impacto sobre CPA y ROAS antes de escalar el presupuesto.";
+ document.getElementById("just").value=txt;saveText();validateGate();
+}
+function showInfo(){var c=CASES[state.caseKey];alert(c.name+"\n\nObjetivo: "+c.objective+"\nPresupuesto: $"+c.budget.toLocaleString()+"\nClientes: "+c.customers.toLocaleString()+"\nTráfico: "+c.traffic+"\nCanales: "+c.channels)}
+function scoreStep(){
+ var s=STEPS[state.step],a=state.answers[state.step]||{},sc=0;
+ if(s[3][0]==="budget"){var b=a.budget||{},dev=Math.abs((b.cold||0)-40)+Math.abs((b.warm||0)-35)+Math.abs((b.hot||0)-25);sc=Math.max(0,1-dev/80)}
+ else{var got=(a.choices||[]).slice().sort().join(","),exp=s[3].slice().sort().join(",");if(got===exp)sc=1;else if(s[3].length>1&&(a.choices||[]).some(function(x){return s[3].indexOf(x)>=0}))sc=.45}
+ a.stepScore=words()>=50?sc:0;state.answers[state.step]=a;
+}
+function nextStep(){saveText();scoreStep();if(state.step<23){state.step++;renderStep();window.scrollTo(0,0)}else dashboard()}
+function openDb(){document.getElementById("drawer").classList.add("open");renderDb()}
+function closeDb(){document.getElementById("drawer").classList.remove("open")}
+document.getElementById("closeDb").onclick=closeDb;document.getElementById("drawer").addEventListener("click",function(e){if(e.target===this)closeDb()});
+["fSearch","fDays","fChannel","fBehavior"].forEach(function(id){document.getElementById(id).addEventListener(id==="fSearch"?"input":"change",renderDb)});
+function renderDb(){
+ var q=document.getElementById("fSearch").value.toLowerCase(),days=+document.getElementById("fDays").value||9999,ch=document.getElementById("fChannel").value,bh=document.getElementById("fBehavior").value;
+ var rows=state.db.filter(function(r){return(!q||Object.keys(r).some(function(k){return String(r[k]).toLowerCase().indexOf(q)>=0}))&&r.days<=days&&(!ch||r.channel===ch)&&(!bh||r.behavior===bh)});
+ document.getElementById("fSummary").textContent=rows.length+" de "+state.db.length+" registros visibles. Usa filtros como apoyo para construir segmentos.";
+ document.getElementById("dbBody").innerHTML=rows.map(function(r){return "<tr><td>"+r.id+"</td><td>"+r.city+"</td><td>"+r.age+"</td><td>"+r.channel+"</td><td>"+r.behavior+"</td><td>"+r.days+"</td><td>"+r.purchases+"</td><td>$"+r.spend+"</td><td>"+r.category+"</td><td>"+r.engagement+"</td></tr>"}).join("");
+ document.getElementById("mCards").innerHTML=rows.map(function(r){return '<div class="rec"><b>'+r.id+" · "+r.behavior+'</b><div class="rgrid"><div><b>Ciudad</b>'+r.city+'</div><div><b>Canal</b>'+r.channel+'</div><div><b>Días</b>'+r.days+'</div><div><b>Compras</b>'+r.purchases+'</div><div><b>Gasto</b>$'+r.spend+'</div><div><b>Categoría</b>'+r.category+"</div></div></div>"}).join("");
+}
+function avg(a,b){var v=state.answers.slice(a-1,b).map(function(x){return(x&&x.stepScore)||0});return Math.round(v.reduce(function(s,x){return s+x},0)/(v.length||1)*100)}
+function errMsg(i){var m=["Prioridad estratégica poco vinculada a rentabilidad.","Fuentes de datos sin suficiente señal de intención.","Confusión entre audiencia personalizada, fría y similar.","Recencia subestimada.","Remarketing demasiado amplio.","Fuente lookalike de baja calidad.","Tamaño lookalike sacrifica precisión.","Prospección fría mezclada con datos propios.","Faltan exclusiones para reducir desperdicio.","Embudo sin progresión clara de intención.","Objetivo publicitario no alineado con conversión.","Producto y audiencia con poca afinidad.","Distribución presupuestaria desequilibrada.","Mensaje poco coherente con la intención.","Métricas interpretadas de forma aislada.","CTR sobrevalorado frente a CPA/ROAS.","Patrón de desperdicio no identificado.","Solapamiento sin corregir.","Escalado poco responsable.","Evento inesperado mal gestionado.","Comparación entre rondas insuficiente.","Se priorizó volumen sobre eficiencia.","Cierre sin concentración en mejores oportunidades.","Síntesis final no integra datos, intención y rentabilidad."];return m[i]}
+function dashboard(){
+ var raw=state.answers.reduce(function(s,a){return s+((a&&a.stepScore)||0)},0)/24,score=Math.round(raw*100)/10,acc=Math.round(raw*100),c=CASES[state.caseKey];
+ var bad=state.answers.map(function(a,i){return{i:i,sc:(a&&a.stepScore)||0}}).sort(function(a,b){return a.sc-b.sc}).slice(0,5);
+ var good=state.answers.map(function(a,i){return{i:i,sc:(a&&a.stepScore)||0}}).sort(function(a,b){return b.sc-a.sc}).slice(0,4);
+ var roas=(1.4+raw*3.8).toFixed(2),cpa=(42-raw*25).toFixed(2),waste=Math.round(c.budget*(1-raw)*.28),conv=Math.round(120+raw*420);
+ var verdict=score>=9?"Desempeño sobresaliente, con criterio estratégico consistente.":score>=8?"Buen desempeño, aunque todavía hay decisiones que pueden mejorar rentabilidad y control de audiencias.":score>=7?"Desempeño aceptable, pero con debilidades relevantes en optimización y precisión.":score>=6?"Desempeño frágil. La estrategia funcionaría parcialmente, pero expone presupuesto a desperdicio.":"Desempeño insuficiente. Varias decisiones comprometen segmentación, eficiencia y resultado comercial.";
+ app.innerHTML='<div class="top"><div class="topin"><div class="brand">'+c.name+'<small>Dashboard final</small></div><button class="btn alt" id="homeBtn">Inicio</button></div></div><div class="wrap"><div class="dash"><div class="dcard"><div class="kick">Calificación final</div><div class="ring" style="--pct:'+acc+'"><div class="rin"><b>'+score+'</b><span>sobre 10</span></div></div><p style="text-align:center">'+verdict+'</p></div><div class="dcard"><div class="kick">Resultado comercial simulado</div><div class="metrics" style="margin-top:12px"><div class="metric"><b>'+roas+'x</b><span>ROAS</span></div><div class="metric"><b>$'+cpa+'</b><span>CPA</span></div><div class="metric"><b>'+conv+'</b><span>Conversiones</span></div><div class="metric"><b>$'+waste+'</b><span>Presupuesto desperdiciado</span></div></div></div></div><div class="dash" style="margin-top:14px"><div class="dcard"><h3>Desempeño por competencia</h3>'+[["Clasificación de audiencias",avg(1,9)],["Lookalike y calidad de datos",avg(4,8)],["Presupuesto y mensajes",avg(10,14)],["Lectura de métricas",avg(14,18)],["Optimización y cierre",avg(18,24)]].map(function(x){return '<div class="barrow"><div class="bartop"><span>'+x[0]+'</span><b>'+x[1]+'%</b></div><div class="bar"><span style="width:'+x[1]+'%"></span></div></div>"}).join("")+'</div><div class="dcard"><h3>Errores críticos</h3><ul>'+bad.map(function(x){return "<li><b>Paso "+(x.i+1)+": "+STEPS[x.i][0]+".</b> "+errMsg(x.i)+"</li>"}).join("")+'</ul></div></div><div class="dash" style="margin-top:14px"><div class="dcard"><h3>Fortalezas</h3><ul>'+good.map(function(x){return "<li>"+STEPS[x.i][0]+": decisión coherente con el objetivo del caso.</li>"}).join("")+'</ul></div><div class="dcard"><h3>Puntos de mejora</h3><p>No basta con completar los 24 pasos. La nota depende de la calidad de las decisiones. Las 50 palabras son requisito de avance, pero no otorgan puntos por extensión. Debes conectar calidad de datos, intención, exclusiones, presupuesto y rentabilidad.</p><button class="btn" id="retryBtn">Reiniciar caso</button></div></div></div>';
+ document.getElementById("homeBtn").onclick=home;document.getElementById("retryBtn").onclick=function(){startCase(state.caseKey)};window.scrollTo(0,0);
+}
+window.addEventListener("error",function(e){console.error(e)});
+home();
+})();
+</script>
+</body>
+</html>
