@@ -1,201 +1,472 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827">
-<title>Simulador de Audiencias Digitales</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simulador de Audiencias Digitales — Black Friday</title>
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#6b7280;--line:#dde3ee;--p:#3157f5;--p2:#6d5dfc;--ok:#0f8a5f;--warn:#a56a12;--bad:#c0392b;--soft:#eef2ff}
-*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.topin{max-width:1120px;margin:auto;padding:10px 14px;display:flex;gap:10px;align-items:center}.brand{font-weight:850;flex:1}.brand small{display:block;font-size:.72rem;color:var(--muted)}
-.progbox{min-width:120px}.proglabel{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted)}.prog{height:7px;border-radius:99px;background:#e8ecf4;overflow:hidden}.prog span{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--p2))}
-.wrap{max-width:1120px;margin:auto;padding:16px 14px 96px}.hero{padding:28px 0 18px}.hero h1{margin:0 0 10px;font-size:clamp(1.9rem,6vw,3.5rem);line-height:1.02;letter-spacing:-1.2px}.hero p{max-width:760px;line-height:1.6;color:var(--muted)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 10px 28px rgba(20,30,55,.07)}
-.case{display:flex;flex-direction:column;min-height:250px}.pill{align-self:flex-start;background:var(--soft);color:var(--p);border-radius:999px;padding:6px 9px;font-size:.74rem;font-weight:800}.case h2{margin:14px 0 7px}.case p{color:var(--muted);line-height:1.5;flex:1}
-.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:800;background:var(--p);color:#fff}.btn.alt{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.ghost{background:#fff;color:var(--p);border:1px solid #cbd4ff}.btn:disabled{opacity:.42;cursor:not-allowed}
-.layout{display:grid;grid-template-columns:260px 1fr;gap:16px}.side{position:sticky;top:72px;align-self:start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;max-height:calc(100vh - 90px);overflow:auto}.side strong{display:block;margin:5px 6px 10px}.sitem{font-size:.82rem;color:var(--muted);padding:9px 7px;border-radius:9px}.sitem.active{background:var(--soft);color:var(--p);font-weight:800}.sitem.done{color:var(--ok)}
-.step{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 10px 28px rgba(20,30,55,.07)}.kick{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;font-weight:850;color:var(--p)}.step h2{margin:6px 0 10px;font-size:clamp(1.4rem,5vw,2rem)}.step p{line-height:1.58}
-.info{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}.stat{border:1px solid var(--line);background:#f9fbff;border-radius:13px;padding:11px}.stat b{display:block}.stat span{font-size:.72rem;color:var(--muted)}
-.call{border-left:4px solid var(--p);background:#f4f6ff;padding:11px 13px;border-radius:10px;margin:12px 0;line-height:1.45}.call.ok{border-color:var(--ok);background:#effaf5}.call.warn{border-color:var(--warn);background:#fff8ec}.call.bad{border-color:var(--bad);background:#fff3f1}
-.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0}.opt{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px;text-align:left}.opt.sel{border:2px solid var(--p);background:var(--soft)}.opt b{display:block;margin-bottom:4px}.opt small{color:var(--muted)}
-.just{margin-top:16px}.jhead{display:flex;justify-content:space-between;gap:10px;align-items:center}.count{font-size:.76rem;color:var(--muted)}textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:13px;padding:12px;margin-top:7px;resize:vertical}textarea:focus,input:focus,select:focus{outline:3px solid #dbe2ff;border-color:var(--p)}
-.tools{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.actions{position:sticky;bottom:0;display:flex;justify-content:space-between;gap:8px;padding-top:24px;background:linear-gradient(180deg,rgba(245,247,251,0),rgba(245,247,251,.98) 30%);padding-bottom:max(8px,env(safe-area-inset-bottom))}
-.money{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.money label{border:1px solid var(--line);border-radius:13px;padding:10px;background:#fafbff}.money input{width:100%;margin-top:6px;padding:8px;border:1px solid var(--line);border-radius:9px}
-.drawer{display:none;position:fixed;inset:0;background:rgba(6,12,28,.55);z-index:50}.drawer.open{display:block}.panel{position:absolute;right:0;top:0;bottom:0;width:min(900px,100%);background:#fff;overflow:auto;padding:14px}.dhead{position:sticky;top:-14px;z-index:3;background:#fff;border-bottom:1px solid var(--line);padding:10px 0;display:flex;gap:10px;align-items:center;justify-content:space-between}
-.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.filters input,.filters select{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff}
-.fsum{font-size:.82rem;background:#f2f5ff;color:#3b4670;border-radius:10px;padding:9px 11px;margin:8px 0}.tbl{overflow:auto;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;min-width:850px;font-size:.79rem}th,td{padding:9px;border-bottom:1px solid #edf0f5;text-align:left;white-space:nowrap}th{background:#f8faff;position:sticky;top:0}
-.mcards{display:none}.rec{border:1px solid var(--line);border-radius:12px;padding:11px;margin:8px 0}.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:.79rem}.rgrid b{display:block;color:var(--muted);font-size:.68rem}
-.dash{display:grid;grid-template-columns:1fr 1fr;gap:14px}.dcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 10px 28px rgba(20,30,55,.07)}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.metric{border:1px solid var(--line);border-radius:12px;padding:10px}.metric b{display:block;font-size:1.08rem}.metric span{font-size:.71rem;color:var(--muted)}.ring{width:145px;height:145px;border-radius:50%;display:grid;place-items:center;margin:8px auto;background:conic-gradient(var(--p) calc(var(--pct)*1%),#edf0f5 0);position:relative}.ring:before{content:"";width:112px;height:112px;background:#fff;border-radius:50%;position:absolute}.rin{position:relative;text-align:center}.rin b{font-size:2.2rem}.rin span{display:block;color:var(--muted);font-size:.75rem}
-.barrow{margin:11px 0}.bartop{display:flex;justify-content:space-between;font-size:.8rem}.bar{height:8px;background:#edf0f5;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--p2))}
-@media(max-width:820px){.cards,.layout,.dash{grid-template-columns:1fr}.side{display:none}.info,.metrics{grid-template-columns:1fr 1fr}.opts,.money{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.wrap{padding:12px 11px 92px}.topin{padding:9px 10px}.brand{font-size:.9rem}.progbox{min-width:105px}.case{min-height:auto}.step{padding:15px;border-radius:16px}.filters{grid-template-columns:1fr}.tbl{display:none}.mcards{display:block}.tools .btn,.actions .btn{flex:1}.panel{padding:11px}.info{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}}
+:root{
+  --bg:#f5f7fb; --card:#ffffff; --ink:#172033; --muted:#6b7280; --line:#dfe4ee;
+  --primary:#304ffe; --primary2:#6c63ff; --good:#138a5b; --warn:#b7791f; --bad:#c0392b;
+  --soft:#eef2ff; --shadow:0 10px 30px rgba(23,32,51,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:1180px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.brand{font-weight:800;letter-spacing:-.3px;flex:1}.brand small{display:block;font-weight:600;color:var(--muted);font-size:.74rem}
+.progress-wrap{min-width:140px}.progress-label{font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between}
+.progress{height:8px;background:#e9edf5;border-radius:999px;overflow:hidden}.progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--primary2));width:0%}
+.container{max-width:1180px;margin:auto;padding:18px 16px 100px}
+.hero{padding:32px 0 18px}.hero h1{font-size:clamp(1.8rem,5vw,3.6rem);line-height:1.02;margin:0 0 10px;letter-spacing:-1.5px}.hero p{max-width:760px;color:var(--muted);font-size:1.05rem;line-height:1.6}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.case-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:270px}
+.case-card .pill{align-self:flex-start;padding:6px 10px;border-radius:999px;background:var(--soft);color:var(--primary);font-weight:700;font-size:.76rem}
+.case-card h2{margin:14px 0 6px;font-size:1.45rem}.case-card p{color:var(--muted);line-height:1.5;flex:1}
+.btn{border:0;border-radius:14px;padding:12px 15px;font-weight:800;background:var(--primary);color:#fff}
+.btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost{background:transparent;color:var(--primary);border:1px solid #cdd5ff}
+.btn.danger{background:var(--bad)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.layout{display:grid;grid-template-columns:280px 1fr;gap:18px}
+.sidebar{position:sticky;top:76px;align-self:start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow)}
+.side-title{font-weight:800;margin-bottom:8px}.side-item{padding:10px 8px;border-radius:10px;font-size:.88rem;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+.side-item.active{background:var(--soft);color:var(--primary);font-weight:800}.side-item.done{color:var(--good)}
+.step-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.kicker{text-transform:uppercase;letter-spacing:.12em;font-size:.74rem;font-weight:800;color:var(--primary)}
+.step-card h2{font-size:clamp(1.35rem,4vw,2rem);margin:7px 0 10px}.step-card p{line-height:1.62}
+.info-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.stat{background:#f8faff;border:1px solid var(--line);padding:12px;border-radius:14px}.stat b{display:block;font-size:1.1rem}.stat span{font-size:.76rem;color:var(--muted)}
+.option-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.option{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff;text-align:left}
+.option:hover{border-color:#aeb8ff}.option.selected{border:2px solid var(--primary);background:var(--soft)}
+.option strong{display:block;margin-bottom:4px}.option small{color:var(--muted)}
+.justify{margin-top:18px}.justify-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.counter{font-size:.78rem;color:var(--muted)}
+textarea{width:100%;min-height:150px;resize:vertical;border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:8px;background:#fff;color:var(--ink)}
+textarea:focus,input:focus,select:focus{outline:3px solid #dfe4ff;border-color:var(--primary)}
+.callout{border-left:4px solid var(--primary);background:#f6f7ff;border-radius:10px;padding:12px 14px;margin:14px 0}.callout.warn{border-color:var(--warn);background:#fff9ef}.callout.bad{border-color:var(--bad);background:#fff4f2}.callout.good{border-color:var(--good);background:#effaf5}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:22px;position:sticky;bottom:0;background:linear-gradient(180deg,rgba(245,247,251,0),rgba(245,247,251,.98) 28%);padding-top:24px;padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.drawer{display:none;position:fixed;inset:0;background:rgba(8,14,28,.5);z-index:40}
+.drawer.open{display:block}.drawer-panel{position:absolute;right:0;top:0;bottom:0;width:min(900px,100%);background:#fff;padding:18px;overflow:auto}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;position:sticky;top:-18px;background:#fff;padding:12px 0;border-bottom:1px solid var(--line);z-index:2}
+.data-toolbar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.data-toolbar input,.data-toolbar select{width:100%;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:900px;font-size:.82rem}
+th,td{padding:10px;border-bottom:1px solid #edf0f5;text-align:left;white-space:nowrap}th{position:sticky;top:0;background:#f8faff;z-index:1}
+.mobile-cards{display:none}.record{border:1px solid var(--line);border-radius:14px;padding:12px;margin:8px 0}.record-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.8rem}.record-grid b{font-size:.72rem;color:var(--muted)}
+.filter-summary{padding:10px 12px;border-radius:12px;background:#f3f6ff;color:#38426d;font-size:.85rem;margin:8px 0}
+.money-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.money-grid label{background:#fafbff;border:1px solid var(--line);border-radius:14px;padding:10px}.money-grid input{width:100%;margin-top:6px;padding:8px;border:1px solid var(--line);border-radius:9px}
+.dashboard{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.dash-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+.score-ring{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;margin:auto;background:conic-gradient(var(--primary) calc(var(--pct)*1%),#edf0f6 0)}.score-ring::before{content:"";width:116px;height:116px;background:#fff;border-radius:50%;position:absolute}.score-ring .inside{position:relative;text-align:center}.score-ring .inside strong{font-size:2.2rem}.score-ring .inside span{display:block;color:var(--muted);font-size:.8rem}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{padding:12px;border:1px solid var(--line);border-radius:14px}.metric b{font-size:1.15rem;display:block}.metric span{color:var(--muted);font-size:.74rem}
+.bar-row{margin:12px 0}.bar-row .top{display:flex;justify-content:space-between;font-size:.82rem}.bar{height:9px;background:#edf0f5;border-radius:999px;overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--primary),var(--primary2))}
+.error-list{margin:0;padding-left:18px}.error-list li{margin:8px 0;line-height:1.45}
+.hidden{display:none!important}.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:4px}.tab{white-space:nowrap;padding:8px 11px;border-radius:999px;border:1px solid var(--line);background:#fff}.tab.active{background:var(--ink);color:#fff}
+@media(max-width:850px){
+  .grid3,.layout,.dashboard{grid-template-columns:1fr}.sidebar{display:none}.info-strip,.metric-grid{grid-template-columns:repeat(2,1fr)}
+  .option-grid,.money-grid{grid-template-columns:1fr}.data-toolbar{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .container{padding:12px 12px 96px}.topbar-inner{padding:10px 12px}.brand{font-size:.9rem}.progress-wrap{min-width:110px}
+  .hero{padding-top:20px}.case-card{min-height:auto}.step-card{padding:16px;border-radius:16px}.info-strip{grid-template-columns:1fr 1fr}
+  .drawer-panel{width:100%;padding:12px}.data-toolbar{grid-template-columns:1fr}.table-wrap{display:none}.mobile-cards{display:block}
+  .actions .btn{flex:1}.actions{gap:8px}.tools .btn{flex:1}.metric-grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
-<div id="app"></div>
-<div id="drawer" class="drawer">
-  <div class="panel">
-    <div class="dhead"><div><b>Base de clientes</b><div style="font-size:.76rem;color:var(--muted)">Filtra y analiza registros para construir audiencias.</div></div><button class="btn alt" id="closeDb">Cerrar</button></div>
-    <div class="filters">
-      <input id="fSearch" placeholder="Buscar cliente o ciudad">
-      <select id="fDays"><option value="">Recencia: todas</option><option value="7">≤ 7 días</option><option value="30">≤ 30 días</option><option value="90">≤ 90 días</option><option value="180">≤ 180 días</option></select>
-      <select id="fChannel"><option value="">Canal: todos</option><option>Web</option><option>App</option><option>Tienda</option><option>Delivery</option></select>
-      <select id="fBehavior"><option value="">Comportamiento: todos</option><option>Compró</option><option>Carrito</option><option>Visitó web</option><option>Interactuó</option><option>Lead</option><option>Inactivo</option></select>
-    </div>
-    <div id="fSummary" class="fsum"></div>
-    <div class="tbl"><table><thead><tr><th>ID</th><th>Ciudad</th><th>Edad</th><th>Canal</th><th>Comportamiento</th><th>Días</th><th>Compras</th><th>Gasto</th><th>Categoría</th><th>Engagement</th></tr></thead><tbody id="dbBody"></tbody></table></div>
-    <div id="mCards" class="mcards"></div>
+<div id="app" class="app">
+  <div class="container">
+    <section class="hero">
+      <div class="kicker">Publicidad Digital · Audiencias</div>
+      <h1>Simulador de Audiencias Digitales</h1>
+      <p id="bootMsg">Cargando simulador…</p>
+      <noscript><div class="callout bad"><strong>JavaScript está desactivado o bloqueado.</strong> Este simulador necesita abrirse en un navegador web que permita JavaScript. Los visores de archivos de algunas apps móviles pueden bloquearlo.</div></noscript>
+    </section>
   </div>
 </div>
+
+<div id="drawer" class="drawer" onclick="if(event.target===this)closeDrawer()">
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <div><strong id="drawerTitle">Muestra de base de datos</strong><div style="color:var(--muted);font-size:.8rem">Filtra y analiza registros representativos del universo de clientes.</div></div>
+      <button class="btn secondary" onclick="closeDrawer()">Cerrar</button>
+    </div>
+    <div class="data-toolbar">
+      <input id="fSearch" placeholder="Buscar cliente, ciudad..." oninput="renderDatabase()">
+      <select id="fRecency" onchange="renderDatabase()">
+        <option value="">Recencia: todas</option><option value="7">≤ 7 días</option><option value="30">≤ 30 días</option><option value="90">≤ 90 días</option><option value="180">≤ 180 días</option>
+      </select>
+      <select id="fChannel" onchange="renderDatabase()">
+        <option value="">Canal: todos</option><option>Web</option><option>App</option><option>Tienda</option><option>Delivery</option>
+      </select>
+      <select id="fBehavior" onchange="renderDatabase()">
+        <option value="">Comportamiento: todos</option><option>Compró</option><option>Carrito</option><option>Visitó web</option><option>Interactuó</option><option>Lead</option><option>Inactivo</option>
+      </select>
+    </div>
+    <div id="filterSummary" class="filter-summary"></div>
+    <div class="table-wrap"><table><thead><tr>
+      <th>ID</th><th>Ciudad</th><th>Edad</th><th>Canal</th><th>Comportamiento</th><th>Días desde acción</th><th>Compras</th><th>Gasto $</th><th>Categoría</th><th>Engagement</th>
+    </tr></thead><tbody id="dataBody"></tbody></table></div>
+    <div id="mobileCards" class="mobile-cards"></div>
+  </div>
+</div>
+
 <script>
-(function(){
-"use strict";
-var CASES={
- urbanfit:{name:"UrbanFit",mode:"guided",label:"Práctica guiada",accent:"#5b5bd6",desc:"Cadena de gimnasios y servicios fitness. Aprende el recorrido completo con sugerencias y respuestas modelo.",budget:2400,customers:18400,traffic:"78,000 visitas/90 días",channels:"Web, app, sedes y WhatsApp",objective:"Aumentar membresías Black Friday y reactivar usuarios con alta intención.",event:"Una sede principal alcanza 95% de ocupación y ya no puede aceptar nuevas membresías premium."},
- martwalk:{name:"MartWalk",mode:"exam",label:"Caso evaluado 1",accent:"#167a4a",desc:"Retail tipo supermercado con tiendas físicas, e-commerce y delivery. Black Friday de alto volumen.",budget:10000,customers:126000,traffic:"420,000 visitas/90 días",channels:"Web, app, tiendas, delivery y pickup",objective:"Maximizar ventas rentables de Black Friday sin saturar audiencias ni desperdiciar presupuesto.",event:"Electrónica agota 70% del inventario antes de las 4:00 p.m.; hogar y cuidado personal mantienen stock."},
- reina:{name:"Farmacia La Reina",mode:"exam",label:"Caso evaluado 2",accent:"#9b2c7a",desc:"Farmacia nacional con medicamentos, cuidado personal, librería/papelería, web y delivery.",budget:6500,customers:74000,traffic:"215,000 visitas/90 días",channels:"Web, tiendas, delivery, call center y app",objective:"Incrementar ventas digitales y pedidos delivery con rentabilidad y segmentación responsable.",event:"Una promoción de cuidado personal se vuelve viral y eleva la frecuencia; medicamentos mantienen demanda estable."}
+const CASES = {
+  urbanfit:{
+    name:"UrbanFit", mode:"guided", label:"Práctica guiada", accent:"#5b5bd6",
+    desc:"Cadena de gimnasios y servicios fitness. Aprende el recorrido completo con sugerencias y respuestas modelo.",
+    context:{
+      objective:"Aumentar membresías Black Friday y reactivar usuarios con alta intención.",
+      budget:2400, customers:18400, web:"78,000 visitas/90 días", channels:"Web, app, sedes físicas y WhatsApp",
+      event:"Una sede principal alcanza 95% de ocupación y ya no puede aceptar nuevas membresías premium."
+    }
+  },
+  martwalk:{
+    name:"MartWalk", mode:"exam", label:"Caso evaluado 1", accent:"#167a4a",
+    desc:"Retail tipo supermercado con tiendas físicas, e-commerce y delivery. Black Friday de alto volumen.",
+    context:{
+      objective:"Maximizar ventas rentables de Black Friday sin saturar audiencias ni desperdiciar presupuesto.",
+      budget:10000, customers:126000, web:"420,000 visitas/90 días", channels:"Web, app, tiendas físicas, delivery y pickup",
+      event:"Electrónica agota 70% del inventario antes de las 4:00 p.m.; hogar y cuidado personal mantienen stock."
+    }
+  },
+  reina:{
+    name:"Farmacia La Reina", mode:"exam", label:"Caso evaluado 2", accent:"#9b2c7a",
+    desc:"Farmacia nacional con medicamentos, cuidado personal, librería/papelería, sitio web y delivery.",
+    context:{
+      objective:"Incrementar ventas digitales y pedidos delivery con rentabilidad y segmentación responsable.",
+      budget:6500, customers:74000, web:"215,000 visitas/90 días", channels:"Web, tiendas, delivery, call center y app",
+      event:"Una promoción de cuidado personal se vuelve viral y eleva la frecuencia; medicamentos mantienen demanda estable."
+    }
+  }
 };
-var STEPS=[
-["Analiza la situación actual","¿Cuál debe ser la prioridad estratégica de Black Friday?",["Alcance masivo sin restricciones","Ventas rentables con segmentación por intención","Solo reconocimiento de marca","Aumentar seguidores"],[1],"La campaña tiene objetivo comercial. El alcance solo es útil si conduce a ventas rentables."],
-["Revisa las fuentes de datos","Selecciona las fuentes de mayor valor para construir audiencias.",["Compradores recientes","Visitantes del sitio","Carritos abandonados","Personas sin interacción previa"],[0,1,2],"Las señales de comportamiento propio permiten construir audiencias personalizadas con intención."],
-["Clasifica audiencias","¿Cuál representa mejor una audiencia personalizada?",["Intereses generales","Visitantes del sitio en 30 días","Personas de 18–55 años","Lookalike 1%"],[1],"Una audiencia personalizada surge de personas que ya tuvieron relación con la marca."],
-["Prioriza datos útiles","¿Qué segmento debería recibir mayor prioridad para remarketing inmediato?",["Usuarios sin contacto previo","Carritos abandonados ≤ 7 días","Seguidores inactivos 2 años","Audiencia amplia nacional"],[1],"Recencia e intención son claves para remarketing de conversión."],
-["Crea audiencia personalizada","Construye la audiencia de alta intención más adecuada.",["Visitantes 180 días","Carrito ≤ 7 días + no compradores","Todos los seguidores","Clientes de cualquier fecha"],[1],"Alta intención: carrito reciente y exclusión de quienes ya compraron."],
-["Elige audiencia origen para lookalike","¿Cuál sería una fuente de mejor calidad?",["Todos los visitantes","Compradores recurrentes de alto valor","Seguidores recientes","Usuarios de alcance"],[1],"La fuente debe representar el comportamiento que deseas replicar."],
-["Define tamaño lookalike","¿Qué tamaño utilizarías primero para maximizar similitud?",["1%","5%","10%","Sin límite"],[0],"Un porcentaje menor suele priorizar similitud; luego puede ampliarse para ganar escala."],
-["Construye audiencia fría","¿Cuál enfoque es más razonable para prospección?",["Intereses y comportamientos relacionados con categorías prioritarias","Compradores de los últimos 30 días","Carritos abandonados","Base de clientes"],[0],"La audiencia fría aún no tiene relación directa con la marca."],
-["Aplica exclusiones","¿Qué exclusión evita desperdicio en adquisición?",["Excluir compradores recientes de campañas para nuevos clientes","Excluir usuarios sin compra","Excluir visitantes web","Excluir toda la ciudad principal"],[0],"No pagues adquisición por personas que ya cumplieron recientemente el objetivo."],
-["Ubica audiencias en el embudo","¿Qué orden representa mejor el avance de intención?",["Lookalike → carrito → comprador","Comprador → fría → visitante","Carrito → fría → comprador","Fría → comprador → visitante"],[0],"La prospección puede comenzar con similares/frías y avanzar hacia señales de alta intención."],
-["Asigna objetivo publicitario","Para carritos abandonados, ¿qué objetivo priorizarías?",["Reconocimiento","Tráfico","Ventas/Conversiones","Interacción"],[2],"El comportamiento ya muestra intención; la optimización debe orientarse a compra."],
-["Relaciona producto y audiencia","¿Qué criterio debe dominar la asignación de productos?",["Producto aleatorio","Historial y afinidad de categoría","El producto más caro siempre","Mismo anuncio para todos"],[1],"La relevancia aumenta cuando la categoría coincide con señales previas del usuario."],
-["Distribuye presupuesto","Asigna una estructura inicial de inversión.",["Presupuesto"],["budget"],"Debe existir prospección, pero también inversión suficiente en audiencias de intención. La suma debe ser 100%."],
-["Selecciona mensaje","¿Qué mensaje usarías para alta intención?",["Conoce nuestra marca","Aprovecha hoy: vuelve a tu carrito antes de que termine Black Friday","Síguenos para más contenido","Historia institucional"],[1],"Para alta intención conviene urgencia contextual y continuidad con la acción previa."],
-["Lanza la primera ronda","¿Qué condición debe cumplirse antes de interpretar resultados?",["Revisar métricas en conjunto y no una sola","Tomar decisiones solo con CTR","Pausar todo lo que tenga CPC alto sin contexto","Esperar solo likes"],[0],"Las métricas deben leerse según objetivo, costo y resultado final."],
-["Analiza métricas","Una audiencia tiene CTR alto pero CPA muy alto. ¿Qué conclusión es más sólida?",["Es excelente porque genera clics","Puede atraer interés sin convertir eficientemente","Debe recibir todo el presupuesto","El CTR elimina la necesidad de revisar ROAS"],[1],"CTR no equivale a rentabilidad. Si CPA y ROAS son malos, la campaña necesita ajustes."],
-["Detecta desperdicio","¿Qué señal sugiere gasto ineficiente?",["Frecuencia alta + CPA creciente + ROAS bajo","ROAS alto + CPA bajo","Conversión creciente","Compras rentables"],[0],"Saturación y deterioro de costos suelen indicar desperdicio."],
-["Detecta solapamiento","¿Qué acción reduce competencia interna entre audiencias?",["Crear más conjuntos idénticos","Usar exclusiones entre segmentos","Duplicar presupuesto","Eliminar toda segmentación"],[1],"Las exclusiones ayudan a que dos conjuntos no pujen por las mismas personas."],
-["Optimiza la campaña","¿Qué decisión es más coherente si un conjunto tiene ROAS alto y frecuencia saludable?",["Pausarlo","Escalar gradualmente presupuesto","Duplicarlo diez veces de inmediato","Ignorarlo"],[1],"Escalar de forma gradual reduce el riesgo de desestabilizar el rendimiento."],
-["Responde al evento inesperado","El mercado cambia durante Black Friday. ¿Qué haces primero?",["Mantener todo igual","Reasignar inversión según stock, capacidad y desempeño","Aumentar frecuencia a cualquier costo","Detener todas las campañas"],[1],"La estrategia debe responder a inventario/capacidad real y no solo a métricas históricas."],
-["Realiza segunda ronda","Después de optimizar, ¿qué debes comparar?",["Solo likes","Ronda 1 vs. ronda 2 en CPA, ROAS, conversión y desperdicio","Solo alcance","Solo número de anuncios"],[1],"La mejora se demuestra comparando eficiencia y resultado comercial."],
-["Compara resultados","¿Qué escenario es preferible?",["Más ventas con ROAS menor y CPA descontrolado","Menos alcance pero mejor ROAS y CPA sostenible","Más impresiones aunque no conviertan","Mayor frecuencia siempre"],[1],"El objetivo es rentabilidad y sostenibilidad, no volumen vacío."],
-["Decide las últimas horas","¿Dónde concentrarías el presupuesto final?",["Audiencias con mejor combinación de intención, stock y rentabilidad","En todas por igual","Solo en la más grande","Solo en reconocimiento"],[0],"En el cierre conviene priorizar intención, capacidad real y retorno."],
-["Cierra y justifica estrategia final","Selecciona la afirmación que mejor resume una estrategia madura.",["La mejor audiencia es la más grande","La calidad de datos, exclusiones, intención y rentabilidad deben trabajar juntas","El CTR es suficiente para decidir","Lookalike reemplaza toda audiencia personalizada"],[1],"La gestión de audiencias es un sistema: datos, intención, exclusiones, presupuesto y resultados."]
+
+const STEPS = [
+{t:"Analiza la situación actual", q:"¿Cuál debe ser la prioridad estratégica de Black Friday?", opts:["Alcance masivo sin restricciones","Ventas rentables con segmentación por intención","Solo reconocimiento de marca","Aumentar seguidores"], correct:[1], hint:"La campaña tiene objetivo comercial. El alcance solo es útil si conduce a ventas rentables."},
+{t:"Revisa las fuentes de datos", q:"Selecciona las fuentes que deben considerarse de mayor valor para construir audiencias.", opts:["Compradores recientes","Visitantes del sitio","Carritos abandonados","Personas sin interacción previa"], correct:[0,1,2], multi:true, hint:"Las señales de comportamiento propio permiten audiencias personalizadas de mayor intención."},
+{t:"Clasifica audiencias", q:"¿Cuál de estas opciones representa mejor una audiencia personalizada?", opts:["Intereses generales","Visitantes del sitio en 30 días","Personas de 18–55 años","Lookalike 1%"], correct:[1], hint:"Una audiencia personalizada surge de personas que ya tuvieron relación con la marca."},
+{t:"Prioriza datos útiles", q:"¿Qué segmento debería recibir mayor prioridad para remarketing inmediato?", opts:["Usuarios sin contacto previo","Carritos abandonados ≤ 7 días","Seguidores inactivos 2 años","Audiencia amplia nacional"], correct:[1], hint:"La recencia y la intención son claves para remarketing de conversión."},
+{t:"Crea audiencia personalizada", q:"Construye la audiencia de alta intención más adecuada.", opts:["Visitantes 180 días","Carrito ≤ 7 días + no compradores","Todos los seguidores","Clientes de cualquier fecha"], correct:[1], hint:"Alta intención: carrito reciente y exclusión de quienes ya compraron."},
+{t:"Elige audiencia origen para lookalike", q:"¿Cuál sería una fuente de mejor calidad?", opts:["Todos los visitantes","Compradores recurrentes de alto valor","Seguidores recientes","Usuarios de alcance"], correct:[1], hint:"La similitud mejora cuando la fuente representa el comportamiento que deseas replicar."},
+{t:"Define tamaño lookalike", q:"¿Qué tamaño utilizarías primero para maximizar similitud?", opts:["1%","5%","10%","Sin límite"], correct:[0], hint:"Un porcentaje menor suele priorizar similitud; luego puede ampliarse si necesita escala."},
+{t:"Construye audiencia fría", q:"¿Cuál enfoque es más razonable para prospección?", opts:["Intereses y comportamientos relacionados con categorías prioritarias","Compradores de los últimos 30 días","Carritos abandonados","Base de clientes"], correct:[0], hint:"La audiencia fría aún no tiene relación directa con la marca."},
+{t:"Aplica exclusiones", q:"¿Qué exclusión evita desperdicio en adquisición?", opts:["Excluir compradores recientes de campañas para nuevos clientes","Excluir usuarios sin compra","Excluir visitantes web","Excluir a toda la ciudad principal"], correct:[0], hint:"No pagues adquisición por personas que ya cumplieron recientemente el objetivo."},
+{t:"Ubica audiencias en el embudo", q:"¿Qué orden representa mejor el avance de intención?", opts:["Lookalike → carrito → comprador","Comprador → fría → visitante","Carrito → fría → comprador","Fría → comprador → visitante"], correct:[0], hint:"La prospección puede comenzar con similares/frías y progresar hacia señales de alta intención."},
+{t:"Asigna objetivo publicitario", q:"Para carritos abandonados, ¿qué objetivo priorizarías?", opts:["Reconocimiento","Tráfico","Ventas/Conversiones","Interacción"], correct:[2], hint:"El comportamiento ya muestra intención; la optimización debe orientarse a compra."},
+{t:"Relaciona producto y audiencia", q:"¿Qué criterio debe dominar la asignación de productos?", opts:["Producto aleatorio","Historial y afinidad de categoría","El producto más caro siempre","Mismo anuncio para todos"], correct:[1], hint:"Relevancia aumenta cuando la categoría coincide con señales previas del usuario."},
+{t:"Distribuye presupuesto", q:"Asigna una estructura inicial de inversión.", type:"budget", correctBudget:{cold:40,warm:35,hot:25}, hint:"Debe existir prospección, pero también suficiente inversión en audiencias de intención. La suma debe ser 100%."},
+{t:"Selecciona mensaje", q:"¿Qué mensaje usarías para alta intención?", opts:["Conoce nuestra marca","Aprovecha hoy: vuelve a tu carrito antes de que termine Black Friday","Síguenos para más contenido","Historia institucional"], correct:[1], hint:"Para alta intención conviene urgencia contextual y continuidad con la acción previa."},
+{t:"Lanza la primera ronda", q:"¿Qué condición debe cumplirse antes de interpretar resultados?", opts:["Revisar métricas en conjunto y no una sola","Tomar decisiones solo con CTR","Pausar todo lo que tenga CPC alto sin contexto","Esperar solo likes"], correct:[0], hint:"Las métricas deben leerse según objetivo, costo y resultado final."},
+{t:"Analiza métricas", q:"Una audiencia tiene CTR alto pero CPA muy alto. ¿Qué conclusión es más sólida?", opts:["Es excelente porque genera clics","Puede atraer interés sin convertir eficientemente","Debe recibir todo el presupuesto","El CTR elimina la necesidad de revisar ROAS"], correct:[1], hint:"CTR no equivale a rentabilidad. Si CPA y ROAS son malos, la campaña necesita ajustes."},
+{t:"Detecta desperdicio", q:"¿Qué señal sugiere gasto ineficiente?", opts:["Frecuencia alta + CPA creciente + ROAS bajo","ROAS alto + CPA bajo","Conversión creciente","Compras rentables"], correct:[0], hint:"Saturación y deterioro de costos suelen indicar desperdicio."},
+{t:"Detecta solapamiento", q:"¿Qué acción reduce competencia interna entre audiencias?", opts:["Crear más conjuntos idénticos","Usar exclusiones entre segmentos","Duplicar presupuesto","Eliminar toda segmentación"], correct:[1], hint:"Las exclusiones ayudan a que dos conjuntos no pujen por las mismas personas."},
+{t:"Optimiza la campaña", q:"¿Qué decisión es más coherente si un conjunto tiene ROAS alto y frecuencia saludable?", opts:["Pausarlo","Escalar gradualmente presupuesto","Duplicarlo diez veces de inmediato","Ignorarlo"], correct:[1], hint:"Escalar de forma gradual reduce el riesgo de desestabilizar el rendimiento."},
+{t:"Responde al evento inesperado", q:"El mercado cambia durante Black Friday. ¿Qué haces primero?", opts:["Mantener todo igual","Reasignar inversión según stock, capacidad y desempeño","Aumentar frecuencia a cualquier costo","Detener todas las campañas"], correct:[1], hint:"La estrategia debe responder a inventario/capacidad real y no solo a métricas históricas."},
+{t:"Realiza segunda ronda", q:"Después de optimizar, ¿qué debes comparar?", opts:["Solo likes","Ronda 1 vs. ronda 2 en CPA, ROAS, conversión y desperdicio","Solo alcance","Solo número de anuncios"], correct:[1], hint:"La mejora se demuestra comparando eficiencia y resultado comercial."},
+{t:"Compara resultados", q:"¿Qué escenario es preferible?", opts:["Más ventas con ROAS menor y CPA descontrolado","Menos alcance pero mejor ROAS y CPA sostenible","Más impresiones aunque no conviertan","Mayor frecuencia siempre"], correct:[1], hint:"El objetivo es rentabilidad y sostenibilidad, no volumen vacío."},
+{t:"Decide las últimas horas", q:"¿Dónde concentrarías el presupuesto final?", opts:["Audiencias con mejor combinación de intención, stock y rentabilidad","En todas por igual","Solo en la más grande","Solo en reconocimiento"], correct:[0], hint:"En cierre de campaña conviene priorizar señales de intención, capacidad real y retorno."},
+{t:"Cierra y justifica estrategia final", q:"Selecciona la afirmación que mejor resume una estrategia madura.", opts:["La mejor audiencia es la más grande","La calidad de datos, exclusiones, intención y rentabilidad deben trabajar juntas","El CTR es suficiente para decidir","Lookalike reemplaza toda audiencia personalizada"], correct:[1], hint:"La gestión de audiencias es un sistema: datos, intención, exclusiones, presupuesto y resultados."}
 ];
-var state={caseKey:null,step:0,answers:[],db:[]};
-var app=document.getElementById("app");
-function esc(s){return String(s).replace(/[&<>"']/g,function(m){return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[m]})}
+
+let state = {caseKey:null, step:0, answers:[], score:0, db:[]};
+
+function makeDb(caseKey){
+  const cities=["San Miguel","San Salvador","Santa Ana","Usulután","La Unión","Sonsonate"];
+  const cats = caseKey==="urbanfit" ? ["Membresía","Clases","Nutrición","Entrenamiento"] :
+               caseKey==="martwalk" ? ["Electrónica","Hogar","Cuidado personal","Alimentos","Juguetes","Ropa"] :
+               ["Medicamentos","Cuidado personal","Papelería","Librería","Bebé"];
+  const channels=["Web","App","Tienda","Delivery"];
+  const behaviors=["Compró","Carrito","Visitó web","Interactuó","Lead","Inactivo"];
+  let rows=[];
+  for(let i=1;i<=96;i++){
+    const days=(i*7)%181, purchases=(i*3)%9, spend=Math.round(20+((i*47)%650));
+    rows.push({
+      id:(caseKey.slice(0,2).toUpperCase())+"-"+String(i).padStart(3,"0"),
+      city:cities[i%cities.length], age:18+(i*5)%47, channel:channels[i%channels.length],
+      behavior:behaviors[i%behaviors.length], days, purchases, spend,
+      category:cats[i%cats.length], engagement:["Bajo","Medio","Alto"][i%3]
+    });
+  }
+  return rows;
+}
+
 function home(){
- app.innerHTML='<div class="wrap"><section class="hero"><div class="kick">Publicidad Digital · Audiencias</div><h1>Simulador de Audiencias Digitales</h1><p>Experiencia de aproximadamente 60 minutos para construir, justificar y optimizar audiencias frías, personalizadas y similares/lookalike en un contexto de Black Friday.</p></section><div class="cards">'+
- Object.keys(CASES).map(function(k){var c=CASES[k];return '<article class="card case"><span class="pill">'+c.label+'</span><h2>'+c.name+'</h2><p>'+c.desc+'</p><button class="btn start" data-case="'+k+'" style="background:'+c.accent+'">'+(c.mode==="guided"?"Iniciar práctica guiada":"Iniciar caso evaluado")+'</button></article>'}).join("")+
- '</div><div class="call"><b>Mobile-first.</b> El simulador puede completarse íntegramente desde celular, incluida la base de datos filtrable y el Dashboard final.</div></div>';
- document.querySelectorAll(".start").forEach(function(b){b.addEventListener("click",function(){startCase(this.dataset.case)})});
+  document.getElementById("app").innerHTML=`
+  <div class="container">
+    <section class="hero">
+      <div class="kicker">Publicidad Digital · Audiencias</div>
+      <h1>Simulador de Audiencias Digitales</h1>
+      <p>Experiencia de aproximadamente 60 minutos para construir, justificar y optimizar audiencias frías, personalizadas y similares/lookalike en un contexto de Black Friday.</p>
+    </section>
+    <div class="grid3">
+      ${Object.entries(CASES).map(([k,c])=>`
+        <article class="case-card">
+          <span class="pill">${c.label}</span>
+          <h2>${c.name}</h2><p>${c.desc}</p>
+          <button class="btn" style="background:${c.accent}" onclick="startCase('${k}')">${c.mode==="guided"?"Iniciar práctica guiada":"Iniciar caso evaluado"}</button>
+        </article>`).join("")}
+    </div>
+    <div class="callout" style="margin-top:18px">
+      <strong>Diseñado para celular.</strong> Todas las funciones —incluida la base de datos filtrable— están adaptadas a pantalla vertical sin eliminar complejidad.
+    </div>
+  </div>`;
 }
-function makeDb(k){
- var cities=["San Miguel","San Salvador","Santa Ana","Usulután","La Unión","Sonsonate"];
- var cats=k==="urbanfit"?["Membresía","Clases","Nutrición","Entrenamiento"]:k==="martwalk"?["Electrónica","Hogar","Cuidado personal","Alimentos","Juguetes","Ropa"]:["Medicamentos","Cuidado personal","Papelería","Librería","Bebé"];
- var channels=["Web","App","Tienda","Delivery"],beh=["Compró","Carrito","Visitó web","Interactuó","Lead","Inactivo"],out=[];
- for(var i=1;i<=120;i++){out.push({id:k.slice(0,2).toUpperCase()+"-"+String(i).padStart(3,"0"),city:cities[i%cities.length],age:18+(i*5)%47,channel:channels[i%4],behavior:beh[i%6],days:(i*7)%181,purchases:(i*3)%9,spend:20+((i*47)%650),category:cats[i%cats.length],engagement:["Bajo","Medio","Alto"][i%3]})}
- return out;
+
+function startCase(k){
+  state={caseKey:k,step:0,answers:Array(STEPS.length).fill(null),score:0,db:makeDb(k)};
+  renderStep();
 }
-function startCase(k){state={caseKey:k,step:0,answers:new Array(24).fill(null),db:makeDb(k)};renderStep()}
+
 function shell(inner){
- var c=CASES[state.caseKey],pct=Math.round(state.step/24*100);
- return '<div class="top"><div class="topin"><div class="brand">'+c.name+'<small>'+c.label+'</small></div><div class="progbox"><div class="proglabel"><span>Paso '+(state.step+1)+'/24</span><span>'+pct+'%</span></div><div class="prog"><span style="width:'+pct+'%"></span></div></div><button class="btn alt" id="exitBtn">Salir</button></div></div><div class="wrap"><div class="layout"><aside class="side"><strong>Recorrido</strong>'+STEPS.map(function(s,i){return '<div class="sitem '+(i===state.step?"active ":"")+(i<state.step?"done":"")+'">'+(i<state.step?"✓":(i+1))+". "+s[0]+'</div>'}).join("")+'</aside><main>'+inner+'</main></div></div>';
+  const c=CASES[state.caseKey], pct=Math.round((state.step/STEPS.length)*100);
+  return `<div class="topbar"><div class="topbar-inner">
+    <div class="brand">${c.name}<small>${c.label}</small></div>
+    <div class="progress-wrap"><div class="progress-label"><span>Paso ${state.step+1}/24</span><span>${pct}%</span></div><div class="progress"><span style="width:${pct}%"></span></div></div>
+    <button class="btn secondary" onclick="home()">Salir</button>
+  </div></div>
+  <div class="container"><div class="layout">
+    <aside class="sidebar"><div class="side-title">Recorrido</div>${STEPS.map((s,i)=>`<div class="side-item ${i===state.step?"active":""} ${i<state.step?"done":""}">${i<state.step?"✓":i+1}. ${s.t}</div>`).join("")}</aside>
+    <main>${inner}</main>
+  </div></div>`;
 }
-function context(c){return '<div class="info"><div class="stat"><b>$'+c.budget.toLocaleString()+'</b><span>Presupuesto</span></div><div class="stat"><b>'+c.customers.toLocaleString()+'</b><span>Clientes registrados</span></div><div class="stat"><b>'+c.traffic+'</b><span>Tráfico digital</span></div><div class="stat"><b>'+c.channels+'</b><span>Canales</span></div></div><div class="call"><b>Objetivo:</b> '+c.objective+'</div>'}
+
 function renderStep(){
- var c=CASES[state.caseKey],s=STEPS[state.step],a=state.answers[state.step]||{choices:[],justification:""};
- var isBudget=s[3][0]==="budget";
- var inp="";
- if(isBudget){
-  var b=a.budget||{cold:40,warm:35,hot:25};
-  inp='<div class="money"><label>Audiencias frías (%)<input id="bCold" type="number" min="0" max="100" value="'+b.cold+'"></label><label>Personalizadas (%)<input id="bWarm" type="number" min="0" max="100" value="'+b.warm+'"></label><label>Alta intención (%)<input id="bHot" type="number" min="0" max="100" value="'+b.hot+'"></label></div><div id="bTotal" class="fsum"></div>';
- }else{
-  inp='<div class="opts">'+s[2].map(function(o,i){var sel=(a.choices||[]).indexOf(i)>=0;return '<button class="opt '+(sel?"sel":"")+'" data-opt="'+i+'"><b>'+String.fromCharCode(65+i)+". "+o+'</b><small>'+(s[3].length>1?"Puedes combinar opciones":"Selecciona una opción")+'</small></button>'}).join("")+'</div>';
- }
- var tools=(state.step>=1&&state.step<=5)?'<div class="tools"><button class="btn alt" id="dbBtn">Abrir base de clientes</button><button class="btn ghost" id="infoBtn">Ver expediente</button></div>':"";
- var event=state.step===19?'<div class="call warn"><b>Evento inesperado:</b> '+c.event+'</div>':"";
- var guide=c.mode==="guided"?'<div class="tools"><button class="btn ghost" id="hintBtn">Ver sugerencia guiada</button><button class="btn ghost" id="fillBtn">Rellenar ejemplo de justificación</button></div><div id="hintBox" class="call ok hidden"><b>Respuesta recomendada:</b> '+guidedAnswer(s)+'<br><br><b>Por qué:</b> '+s[4]+'</div>':"";
- var inner='<section class="step"><div class="kick">Paso '+(state.step+1)+' de 24</div><h2>'+s[0]+'</h2>'+(state.step===0?context(c):"")+tools+event+'<p><b>'+s[1]+'</b></p>'+inp+'<div class="just"><div class="jhead"><b>Justificación de la decisión</b><span id="wc" class="count">0/50 palabras</span></div><textarea id="just" placeholder="Explica tu decisión utilizando los datos y criterios del caso...">'+esc(a.justification||"")+'</textarea><div class="call">Debes escribir un mínimo de <b>50 palabras</b>. Cumplir la extensión no garantiza una buena calificación.</div></div>'+guide+'</section><div class="actions"><button class="btn alt" id="prevBtn" '+(state.step===0?"disabled":"")+'>Anterior</button><button class="btn" id="nextBtn">Continuar</button></div>';
- app.innerHTML=shell(inner);
- bindStep();
+  const c=CASES[state.caseKey], s=STEPS[state.step], saved=state.answers[state.step]||{};
+  let body = `
+    <div class="step-card">
+      <div class="kicker">Paso ${state.step+1} de 24</div>
+      <h2>${s.t}</h2>
+      ${state.step===0?contextBlock(c):""}
+      ${state.step===1||state.step===2||state.step===3||state.step===4||state.step===5?`<div class="tools"><button class="btn secondary" onclick="openDatabase()">Abrir base de clientes</button><button class="btn ghost" onclick="showCaseInfo()">Ver expediente del caso</button></div>`:""}
+      ${state.step===19?`<div class="callout warn"><strong>Evento inesperado:</strong> ${c.context.event}</div>`:""}
+      <p><strong>${s.q}</strong></p>
+      ${renderInput(s,saved)}
+      <div class="justify">
+        <div class="justify-head"><strong>Justificación de la decisión</strong><span class="counter" id="wc">0/50 palabras</span></div>
+        <textarea id="justification" placeholder="Explica tu decisión utilizando los datos y criterios del caso..." oninput="countWords()">${saved.justification||""}</textarea>
+        <div class="callout" style="font-size:.86rem">Debes escribir un mínimo de <strong>50 palabras</strong>. La extensión por sí sola no garantiza una buena evaluación.</div>
+      </div>
+      ${c.mode==="guided"?`<div class="tools"><button class="btn ghost" onclick="toggleHint()">Ver solución guiada</button><button class="btn ghost" onclick="fillModel()">Rellenar ejemplo de justificación</button></div><div id="hintBox" class="callout good hidden"><strong>Respuesta recomendada:</strong> ${guidedAnswer(s)}<br><br><strong>Por qué:</strong> ${s.hint}</div>`:""}
+    </div>
+    <div class="actions">
+      <button class="btn secondary" onclick="prevStep()" ${state.step===0?"disabled":""}>Anterior</button>
+      <button id="nextBtn" class="btn" onclick="nextStep()">Continuar</button>
+    </div>`;
+  document.getElementById("app").innerHTML=shell(body);
+  countWords();
 }
+
+function contextBlock(c){
+  return `<div class="info-strip">
+    <div class="stat"><b>$${c.context.budget.toLocaleString()}</b><span>Presupuesto disponible</span></div>
+    <div class="stat"><b>${c.context.customers.toLocaleString()}</b><span>Clientes registrados</span></div>
+    <div class="stat"><b>${c.context.web}</b><span>Tráfico digital</span></div>
+    <div class="stat"><b>${c.context.channels}</b><span>Canales</span></div>
+  </div><div class="callout"><strong>Objetivo del caso:</strong> ${c.context.objective}</div>`;
+}
+
 function guidedAnswer(s){
- if(s[3][0]==="budget")return "Una distribución equilibrada de 40% audiencias frías, 35% personalizadas y 25% alta intención.";
- return s[3].map(function(i){return String.fromCharCode(65+i)+". "+s[2][i]}).join("; ");
+  if(s.type==="budget") return `Frías ${s.correctBudget.cold}% · Personalizadas ${s.correctBudget.warm}% · Alta intención ${s.correctBudget.hot}%`;
+  return s.correct.map(i=>`${String.fromCharCode(65+i)}. ${s.opts[i]}`).join(" + ");
 }
-function bindStep(){
- document.getElementById("exitBtn").onclick=home;
- var p=document.getElementById("prevBtn");if(p)p.onclick=function(){if(state.step>0){saveText();state.step--;renderStep();window.scrollTo(0,0)}};
- var n=document.getElementById("nextBtn");if(n)n.onclick=nextStep;
- var ta=document.getElementById("just");ta.addEventListener("input",function(){saveText();validateGate()});
- document.querySelectorAll(".opt").forEach(function(b){b.onclick=function(){choose(+this.dataset.opt)}});
- ["bCold","bWarm","bHot"].forEach(function(id){var e=document.getElementById(id);if(e)e.addEventListener("input",budgetChange)});
- var d=document.getElementById("dbBtn");if(d)d.onclick=openDb;
- var inf=document.getElementById("infoBtn");if(inf)inf.onclick=showInfo;
- var hb=document.getElementById("hintBtn");if(hb)hb.onclick=function(){document.getElementById("hintBox").classList.toggle("hidden")};
- var fb=document.getElementById("fillBtn");if(fb)fb.onclick=fillExample;
- budgetChange(false);validateGate();
+
+function renderInput(s,saved){
+  if(s.type==="budget"){
+    const b=saved.budget||{cold:40,warm:35,hot:25};
+    if(!saved.budget){ saved.budget={...b}; state.answers[state.step]=saved; }
+    const total=b.cold+b.warm+b.hot;
+    return `<div class="money-grid">
+      <label>Audiencias frías (%)<input id="bCold" type="number" min="0" max="100" value="${b.cold}" oninput="updateBudget()"></label>
+      <label>Personalizadas (%)<input id="bWarm" type="number" min="0" max="100" value="${b.warm}" oninput="updateBudget()"></label>
+      <label>Alta intención (%)<input id="bHot" type="number" min="0" max="100" value="${b.hot}" oninput="updateBudget()"></label>
+    </div><div id="budgetTotal" class="filter-summary">Total asignado: ${total}% ${total===100?"✓":"— debe sumar 100%"}</div>`;
+  }
+  return `<div class="option-grid">${s.opts.map((o,i)=>`<button class="option ${(saved.choices||[]).includes(i)?"selected":""}" onclick="choose(${i},${!!s.multi})"><strong>${String.fromCharCode(65+i)}. ${o}</strong><small>${s.multi?"Puedes combinar opciones":"Selecciona una opción"}</small></button>`).join("")}</div>`;
 }
-function saveText(){var a=state.answers[state.step]||{choices:[]};var ta=document.getElementById("just");if(ta)a.justification=ta.value;state.answers[state.step]=a}
-function choose(i){
- saveText();var s=STEPS[state.step],a=state.answers[state.step]||{choices:[]};a.choices=a.choices||[];
- if(s[3].length>1){var ix=a.choices.indexOf(i);if(ix>=0)a.choices.splice(ix,1);else a.choices.push(i)}else a.choices=[i];
- state.answers[state.step]=a;renderStep();
+
+function choose(i,multi){
+  let a=state.answers[state.step]||{choices:[],justification:""};
+  a.choices=a.choices||[];
+  if(multi){ a.choices=a.choices.includes(i)?a.choices.filter(x=>x!==i):[...a.choices,i]; }
+  else a.choices=[i];
+  a.justification=document.getElementById("justification")?.value||a.justification||"";
+  state.answers[state.step]=a;
+  renderStep();
 }
-function words(){var t=(document.getElementById("just").value||"").trim();return t?t.split(/\s+/).length:0}
-function validateGate(){
- var w=words(),s=STEPS[state.step],a=state.answers[state.step]||{},ok=false;
- document.getElementById("wc").textContent=w+"/50 palabras";
- if(s[3][0]==="budget"){var b=a.budget||{};ok=(+b.cold||0)+(+b.warm||0)+(+b.hot||0)===100}else ok=!!(a.choices&&a.choices.length);
- document.getElementById("nextBtn").disabled=!(w>=50&&ok);
+
+function updateBudget(){
+  const cold=document.getElementById("bCold"), warm=document.getElementById("bWarm"), hot=document.getElementById("bHot");
+  const ta=document.getElementById("justification"), total=document.getElementById("budgetTotal");
+  const vals={cold:+cold.value||0,warm:+warm.value||0,hot:+hot.value||0};
+  let a=state.answers[state.step]||{}; a.budget=vals; a.justification=ta?ta.value:(a.justification||""); state.answers[state.step]=a;
+  if(total) total.textContent=`Total asignado: ${vals.cold+vals.warm+vals.hot}% ${vals.cold+vals.warm+vals.hot===100?"✓":"— debe sumar 100%"}`;
+  countWords();
 }
-function budgetChange(doSave){
- var c=document.getElementById("bCold"),w=document.getElementById("bWarm"),h=document.getElementById("bHot");if(!c)return;
- var b={cold:+c.value||0,warm:+w.value||0,hot:+h.value||0},a=state.answers[state.step]||{};a.budget=b;if(doSave!==false)a.justification=document.getElementById("just").value||"";state.answers[state.step]=a;
- document.getElementById("bTotal").textContent="Total asignado: "+(b.cold+b.warm+b.hot)+"% "+((b.cold+b.warm+b.hot)===100?"✓":"— debe sumar 100%");
- validateGate();
+
+function countWords(){
+  const ta=document.getElementById("justification"); if(!ta)return;
+  const n=ta.value.trim()?ta.value.trim().split(/\s+/).length:0;
+  const wc=document.getElementById("wc"), next=document.getElementById("nextBtn");
+  if(wc) wc.textContent=`${n}/50 palabras`;
+  let a=state.answers[state.step]||{}; a.justification=ta.value; state.answers[state.step]=a;
+  const s=STEPS[state.step];
+  let selected=s.type==="budget" ? !!a.budget && (a.budget.cold+a.budget.warm+a.budget.hot===100) : !!(a.choices&&a.choices.length);
+  if(next) next.disabled=!(n>=50 && selected);
 }
-function fillExample(){
- var s=STEPS[state.step],c=CASES[state.caseKey],txt="Mi decisión se basa en que "+s[4].toLowerCase()+" En este caso, "+c.name+" necesita relacionar la selección de audiencia con intención, calidad de datos, exclusiones y rentabilidad. No tomaría la decisión únicamente por alcance o tamaño del público. También verificaría el comportamiento reciente, la capacidad real de conversión y el impacto sobre CPA y ROAS antes de escalar el presupuesto.";
- document.getElementById("just").value=txt;saveText();validateGate();
+
+function toggleHint(){ document.getElementById("hintBox").classList.toggle("hidden"); }
+function fillModel(){
+  const s=STEPS[state.step], c=CASES[state.caseKey];
+  const txt=`Mi decisión se basa en que ${s.hint.toLowerCase()} En este caso, ${c.name} necesita relacionar la selección de audiencia con intención, calidad de datos, exclusiones y rentabilidad. No tomaría la decisión únicamente por alcance o tamaño del público. También verificaría el comportamiento reciente, la capacidad real de conversión y el impacto sobre CPA y ROAS antes de escalar el presupuesto.`;
+  const ta=document.getElementById("justification"); if(ta){ ta.value=txt; countWords(); }
 }
-function showInfo(){var c=CASES[state.caseKey];alert(c.name+"\n\nObjetivo: "+c.objective+"\nPresupuesto: $"+c.budget.toLocaleString()+"\nClientes: "+c.customers.toLocaleString()+"\nTráfico: "+c.traffic+"\nCanales: "+c.channels)}
-function scoreStep(){
- var s=STEPS[state.step],a=state.answers[state.step]||{},sc=0;
- if(s[3][0]==="budget"){var b=a.budget||{},dev=Math.abs((b.cold||0)-40)+Math.abs((b.warm||0)-35)+Math.abs((b.hot||0)-25);sc=Math.max(0,1-dev/80)}
- else{var got=(a.choices||[]).slice().sort().join(","),exp=s[3].slice().sort().join(",");if(got===exp)sc=1;else if(s[3].length>1&&(a.choices||[]).some(function(x){return s[3].indexOf(x)>=0}))sc=.45}
- a.stepScore=words()>=50?sc:0;state.answers[state.step]=a;
+
+function validateCurrent(){
+  const s=STEPS[state.step], a=state.answers[state.step]||{};
+  let score=0;
+  if(s.type==="budget"){
+    const b=a.budget||{}; const ideal=s.correctBudget;
+    const deviation=Math.abs((b.cold||0)-ideal.cold)+Math.abs((b.warm||0)-ideal.warm)+Math.abs((b.hot||0)-ideal.hot);
+    score=Math.max(0,1-deviation/80);
+  }else{
+    const got=(a.choices||[]).slice().sort().join(","), exp=s.correct.slice().sort().join(",");
+    if(got===exp) score=1;
+    else if(s.multi && (a.choices||[]).some(x=>s.correct.includes(x))) score=.45;
+  }
+  const wc=(a.justification||"").trim().split(/\s+/).filter(Boolean).length;
+  // La justificación de 50 palabras es un requisito de avance. La nota se basa en la calidad de la decisión,
+  // evitando premiar texto largo por sí mismo.
+  a.stepScore=wc>=50 ? score : 0;
+  state.answers[state.step]=a;
 }
-function nextStep(){saveText();scoreStep();if(state.step<23){state.step++;renderStep();window.scrollTo(0,0)}else dashboard()}
-function openDb(){document.getElementById("drawer").classList.add("open");renderDb()}
-function closeDb(){document.getElementById("drawer").classList.remove("open")}
-document.getElementById("closeDb").onclick=closeDb;document.getElementById("drawer").addEventListener("click",function(e){if(e.target===this)closeDb()});
-["fSearch","fDays","fChannel","fBehavior"].forEach(function(id){document.getElementById(id).addEventListener(id==="fSearch"?"input":"change",renderDb)});
-function renderDb(){
- var q=document.getElementById("fSearch").value.toLowerCase(),days=+document.getElementById("fDays").value||9999,ch=document.getElementById("fChannel").value,bh=document.getElementById("fBehavior").value;
- var rows=state.db.filter(function(r){return(!q||Object.keys(r).some(function(k){return String(r[k]).toLowerCase().indexOf(q)>=0}))&&r.days<=days&&(!ch||r.channel===ch)&&(!bh||r.behavior===bh)});
- document.getElementById("fSummary").textContent=rows.length+" de "+state.db.length+" registros visibles. Usa filtros como apoyo para construir segmentos.";
- document.getElementById("dbBody").innerHTML=rows.map(function(r){return "<tr><td>"+r.id+"</td><td>"+r.city+"</td><td>"+r.age+"</td><td>"+r.channel+"</td><td>"+r.behavior+"</td><td>"+r.days+"</td><td>"+r.purchases+"</td><td>$"+r.spend+"</td><td>"+r.category+"</td><td>"+r.engagement+"</td></tr>"}).join("");
- document.getElementById("mCards").innerHTML=rows.map(function(r){return '<div class="rec"><b>'+r.id+" · "+r.behavior+'</b><div class="rgrid"><div><b>Ciudad</b>'+r.city+'</div><div><b>Canal</b>'+r.channel+'</div><div><b>Días</b>'+r.days+'</div><div><b>Compras</b>'+r.purchases+'</div><div><b>Gasto</b>$'+r.spend+'</div><div><b>Categoría</b>'+r.category+"</div></div></div>"}).join("");
+
+function nextStep(){
+  validateCurrent();
+  if(state.step<STEPS.length-1){state.step++;renderStep();window.scrollTo(0,0)}
+  else renderDashboard();
 }
-function avg(a,b){var v=state.answers.slice(a-1,b).map(function(x){return(x&&x.stepScore)||0});return Math.round(v.reduce(function(s,x){return s+x},0)/(v.length||1)*100)}
-function errMsg(i){var m=["Prioridad estratégica poco vinculada a rentabilidad.","Fuentes de datos sin suficiente señal de intención.","Confusión entre audiencia personalizada, fría y similar.","Recencia subestimada.","Remarketing demasiado amplio.","Fuente lookalike de baja calidad.","Tamaño lookalike sacrifica precisión.","Prospección fría mezclada con datos propios.","Faltan exclusiones para reducir desperdicio.","Embudo sin progresión clara de intención.","Objetivo publicitario no alineado con conversión.","Producto y audiencia con poca afinidad.","Distribución presupuestaria desequilibrada.","Mensaje poco coherente con la intención.","Métricas interpretadas de forma aislada.","CTR sobrevalorado frente a CPA/ROAS.","Patrón de desperdicio no identificado.","Solapamiento sin corregir.","Escalado poco responsable.","Evento inesperado mal gestionado.","Comparación entre rondas insuficiente.","Se priorizó volumen sobre eficiencia.","Cierre sin concentración en mejores oportunidades.","Síntesis final no integra datos, intención y rentabilidad."];return m[i]}
-function dashboard(){
- var raw=state.answers.reduce(function(s,a){return s+((a&&a.stepScore)||0)},0)/24,score=Math.round(raw*100)/10,acc=Math.round(raw*100),c=CASES[state.caseKey];
- var bad=state.answers.map(function(a,i){return{i:i,sc:(a&&a.stepScore)||0}}).sort(function(a,b){return a.sc-b.sc}).slice(0,5);
- var good=state.answers.map(function(a,i){return{i:i,sc:(a&&a.stepScore)||0}}).sort(function(a,b){return b.sc-a.sc}).slice(0,4);
- var roas=(1.4+raw*3.8).toFixed(2),cpa=(42-raw*25).toFixed(2),waste=Math.round(c.budget*(1-raw)*.28),conv=Math.round(120+raw*420);
- var verdict=score>=9?"Desempeño sobresaliente, con criterio estratégico consistente.":score>=8?"Buen desempeño, aunque todavía hay decisiones que pueden mejorar rentabilidad y control de audiencias.":score>=7?"Desempeño aceptable, pero con debilidades relevantes en optimización y precisión.":score>=6?"Desempeño frágil. La estrategia funcionaría parcialmente, pero expone presupuesto a desperdicio.":"Desempeño insuficiente. Varias decisiones comprometen segmentación, eficiencia y resultado comercial.";
- app.innerHTML='<div class="top"><div class="topin"><div class="brand">'+c.name+'<small>Dashboard final</small></div><button class="btn alt" id="homeBtn">Inicio</button></div></div><div class="wrap"><div class="dash"><div class="dcard"><div class="kick">Calificación final</div><div class="ring" style="--pct:'+acc+'"><div class="rin"><b>'+score+'</b><span>sobre 10</span></div></div><p style="text-align:center">'+verdict+'</p></div><div class="dcard"><div class="kick">Resultado comercial simulado</div><div class="metrics" style="margin-top:12px"><div class="metric"><b>'+roas+'x</b><span>ROAS</span></div><div class="metric"><b>$'+cpa+'</b><span>CPA</span></div><div class="metric"><b>'+conv+'</b><span>Conversiones</span></div><div class="metric"><b>$'+waste+'</b><span>Presupuesto desperdiciado</span></div></div></div></div><div class="dash" style="margin-top:14px"><div class="dcard"><h3>Desempeño por competencia</h3>'+[["Clasificación de audiencias",avg(1,9)],["Lookalike y calidad de datos",avg(4,8)],["Presupuesto y mensajes",avg(10,14)],["Lectura de métricas",avg(14,18)],["Optimización y cierre",avg(18,24)]].map(function(x){return '<div class="barrow"><div class="bartop"><span>'+x[0]+'</span><b>'+x[1]+'%</b></div><div class="bar"><span style="width:'+x[1]+'%"></span></div></div>"}).join("")+'</div><div class="dcard"><h3>Errores críticos</h3><ul>'+bad.map(function(x){return "<li><b>Paso "+(x.i+1)+": "+STEPS[x.i][0]+".</b> "+errMsg(x.i)+"</li>"}).join("")+'</ul></div></div><div class="dash" style="margin-top:14px"><div class="dcard"><h3>Fortalezas</h3><ul>'+good.map(function(x){return "<li>"+STEPS[x.i][0]+": decisión coherente con el objetivo del caso.</li>"}).join("")+'</ul></div><div class="dcard"><h3>Puntos de mejora</h3><p>No basta con completar los 24 pasos. La nota depende de la calidad de las decisiones. Las 50 palabras son requisito de avance, pero no otorgan puntos por extensión. Debes conectar calidad de datos, intención, exclusiones, presupuesto y rentabilidad.</p><button class="btn" id="retryBtn">Reiniciar caso</button></div></div></div>';
- document.getElementById("homeBtn").onclick=home;document.getElementById("retryBtn").onclick=function(){startCase(state.caseKey)};window.scrollTo(0,0);
+function prevStep(){ if(state.step>0){state.step--;renderStep();window.scrollTo(0,0)} }
+
+function openDatabase(){ document.getElementById("drawer").classList.add("open"); renderDatabase(); }
+function closeDrawer(){ document.getElementById("drawer").classList.remove("open"); }
+function showCaseInfo(){
+  const c=CASES[state.caseKey];
+  alert(`${c.name}\n\nObjetivo: ${c.context.objective}\nPresupuesto: $${c.context.budget.toLocaleString()}\nClientes: ${c.context.customers.toLocaleString()}\nTráfico: ${c.context.web}\nCanales: ${c.context.channels}`);
 }
-window.addEventListener("error",function(e){console.error(e)});
-home();
-})();
+function renderDatabase(){
+  if(!state.db.length)return;
+  const search=document.getElementById("fSearch"), recency=document.getElementById("fRecency"), channel=document.getElementById("fChannel"), behavior=document.getElementById("fBehavior");
+  const q=((search&&search.value)||"").toLowerCase(), rec=+((recency&&recency.value)||0)||9999, ch=(channel&&channel.value)||"", bh=(behavior&&behavior.value)||"";
+  let rows=state.db.filter(r=>(!q||Object.values(r).join(" ").toLowerCase().includes(q)) && r.days<=rec && (!ch||r.channel===ch) && (!bh||r.behavior===bh));
+  const summary=document.getElementById("filterSummary"), body=document.getElementById("dataBody"), cards=document.getElementById("mobileCards");
+  if(summary) summary.textContent=`${rows.length} de ${state.db.length} registros visibles. Usa estos filtros como apoyo para construir segmentos; no sustituyen tu justificación.`;
+  if(body) body.innerHTML=rows.map(r=>`<tr><td>${r.id}</td><td>${r.city}</td><td>${r.age}</td><td>${r.channel}</td><td>${r.behavior}</td><td>${r.days}</td><td>${r.purchases}</td><td>${r.spend}</td><td>${r.category}</td><td>${r.engagement}</td></tr>`).join("");
+  if(cards) cards.innerHTML=rows.map(r=>`<div class="record"><strong>${r.id} · ${r.behavior}</strong><div class="record-grid">
+    <div><b>Ciudad</b>${r.city}</div><div><b>Canal</b>${r.channel}</div><div><b>Días</b>${r.days}</div><div><b>Compras</b>${r.purchases}</div><div><b>Gasto</b>$${r.spend}</div><div><b>Categoría</b>${r.category}</div>
+  </div></div>`).join("");
+}
+
+function renderDashboard(){
+  state.answers.forEach((a,i)=>{ if(a && a.stepScore==null){ state.step=i; validateCurrent(); }});
+  const raw=state.answers.reduce((s,a)=>s+((a&&a.stepScore)||0),0)/STEPS.length;
+  const score=Math.round(raw*100)/10;
+  const accuracy=Math.round(raw*100);
+  const c=CASES[state.caseKey];
+  const badSteps=state.answers.map((a,i)=>({i,sc:(a&&a.stepScore)||0})).sort((a,b)=>a.sc-b.sc).slice(0,5);
+  const goodSteps=state.answers.map((a,i)=>({i,sc:(a&&a.stepScore)||0})).sort((a,b)=>b.sc-a.sc).slice(0,4);
+  const roas=(1.4+raw*3.8).toFixed(2), cpa=(42-raw*25).toFixed(2), waste=Math.round(c.context.budget*(1-raw)*.28), conv=Math.round(120+raw*420);
+  let verdict=score>=9?"Desempeño sobresaliente, con criterio estratégico consistente.":
+              score>=8?"Buen desempeño, aunque todavía hay decisiones que podrían mejorar rentabilidad y control de audiencias.":
+              score>=7?"Desempeño aceptable, pero con debilidades relevantes en optimización y precisión.":
+              score>=6?"Desempeño frágil. La estrategia funcionaría parcialmente, pero expone presupuesto a desperdicio.":
+              "Desempeño insuficiente. Varias decisiones comprometen segmentación, eficiencia y resultado comercial.";
+  const html=`<div class="topbar"><div class="topbar-inner"><div class="brand">${c.name}<small>Dashboard final</small></div><button class="btn secondary" onclick="home()">Volver al inicio</button></div></div>
+  <div class="container">
+    <div class="dashboard">
+      <div class="dash-card">
+        <div class="kicker">Calificación final</div>
+        <div class="score-ring" style="--pct:${accuracy};position:relative"><div class="inside"><strong>${score}</strong><span>sobre 10</span></div></div>
+        <p style="text-align:center">${verdict}</p>
+      </div>
+      <div class="dash-card">
+        <div class="kicker">Resultado comercial simulado</div>
+        <div class="metric-grid" style="margin-top:12px">
+          <div class="metric"><b>${roas}x</b><span>ROAS</span></div><div class="metric"><b>$${cpa}</b><span>CPA</span></div>
+          <div class="metric"><b>${conv}</b><span>Conversiones</span></div><div class="metric"><b>$${waste}</b><span>Presupuesto desperdiciado</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard" style="margin-top:16px">
+      <div class="dash-card"><h3>Desempeño por competencia</h3>
+        ${[
+          ["Clasificación de audiencias",avgRange(1,9)],
+          ["Lookalike y calidad de datos",avgRange(4,8)],
+          ["Presupuesto y mensajes",avgRange(10,14)],
+          ["Lectura de métricas",avgRange(14,18)],
+          ["Optimización y cierre",avgRange(18,24)]
+        ].map(([n,v])=>`<div class="bar-row"><div class="top"><span>${n}</span><b>${v}%</b></div><div class="bar"><span style="width:${v}%"></span></div></div>`).join("")}
+      </div>
+      <div class="dash-card"><h3>Errores críticos</h3><ul class="error-list">${badSteps.map(x=>`<li><strong>Paso ${x.i+1}: ${STEPS[x.i].t}.</strong> ${criticalMessage(x.i)}</li>`).join("")}</ul></div>
+    </div>
+    <div class="dashboard" style="margin-top:16px">
+      <div class="dash-card"><h3>Fortalezas detectadas</h3><ul class="error-list">${goodSteps.map(x=>`<li>${STEPS[x.i].t}: la decisión fue coherente con el objetivo del caso.</li>`).join("")}</ul></div>
+      <div class="dash-card"><h3>Puntos de mejora</h3><p>No basta con completar los 24 pasos. La calificación se determina por la calidad de las decisiones tomadas en el recorrido; las justificaciones de 50 palabras son obligatorias para avanzar, pero escribir más texto no eleva la nota por sí solo. Debes conectar calidad de datos, intención, exclusiones, presupuesto y rentabilidad.</p>
+      <button class="btn" onclick="startCase('${state.caseKey}')">Reiniciar este caso</button></div>
+    </div>
+  </div>`;
+  document.getElementById("app").innerHTML=html; window.scrollTo(0,0);
+}
+
+function avgRange(a,b){
+  const vals=state.answers.slice(a-1,b).map(x=>(x&&x.stepScore)||0);
+  return Math.round((vals.reduce((s,x)=>s+x,0)/(vals.length||1))*100);
+}
+function criticalMessage(i){
+  const msgs=[
+    "La prioridad estratégica no quedó suficientemente vinculada a rentabilidad.",
+    "La selección de fuentes de datos no priorizó señales de intención.",
+    "Existe confusión entre audiencia personalizada, fría y similar.",
+    "La recencia del comportamiento fue subestimada.",
+    "El remarketing de alta intención quedó demasiado amplio.",
+    "La fuente lookalike no representa al mejor cliente posible.",
+    "El tamaño de similitud escogido sacrifica precisión.",
+    "La prospección fría fue mezclada con datos propios.",
+    "Faltan exclusiones para reducir desperdicio.",
+    "El recorrido del embudo no refleja progresión de intención.",
+    "El objetivo publicitario no está alineado con conversión.",
+    "La asignación producto-audiencia carece de afinidad suficiente.",
+    "La distribución presupuestaria se aleja del equilibrio recomendado.",
+    "El mensaje no aprovecha el nivel de intención.",
+    "La lectura de métricas se apoya demasiado en una señal aislada.",
+    "CTR alto fue sobrevalorado frente a CPA/ROAS.",
+    "No se identificó correctamente el patrón de desperdicio.",
+    "Faltó una acción clara contra el solapamiento.",
+    "La optimización no priorizó escalado responsable.",
+    "La respuesta al evento ignoró capacidad o inventario.",
+    "La comparación entre rondas fue insuficiente.",
+    "Se priorizó volumen sobre eficiencia.",
+    "El cierre no concentró presupuesto en señales de mayor calidad.",
+    "La síntesis final no integró datos, intención, exclusiones y rentabilidad."
+  ]; return msgs[i]||"Revisa la lógica de esta decisión.";
+}
+
+window.addEventListener("error", function(ev){
+  const app=document.getElementById("app");
+  if(app && !document.querySelector(".case-card")){
+    app.innerHTML='<div class="container"><div class="callout bad"><strong>No se pudo iniciar el simulador en este visor.</strong><br>Este archivo necesita un navegador web con JavaScript habilitado. Si lo estás viendo dentro de ChatGPT, Archivos/Files o un visor previo, ábrelo desde un enlace web en Safari o Chrome.</div></div>';
+  }
+});
+try{ home(); }catch(err){
+  const app=document.getElementById("app");
+  if(app) app.innerHTML='<div class="container"><div class="callout bad"><strong>Error de inicio:</strong> '+String(err.message||err)+'</div></div>';
+}
 </script>
 </body>
 </html>
